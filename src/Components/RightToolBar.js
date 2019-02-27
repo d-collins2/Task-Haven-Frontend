@@ -1,8 +1,8 @@
 import React from 'react'
-import { Card, Collection, CollectionItem } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import TeamForm from './TeamForm.js'
+import { Card, Collection, CollectionItem } from 'react-materialize'
+import TeamForm from '../FormComponents/TeamForm.js'
 
 class RightToolBar extends React.Component{
   handleTeamClick = (team) => {

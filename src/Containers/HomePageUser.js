@@ -1,10 +1,10 @@
 import React from 'react';
-import BoardContainer from './BoardContainer.js'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import RightToolBar from '../Components/RightToolBar.js'
 import { updateCurrentUserAction} from '../redux/actions.js'
 import { Row, Col } from 'react-materialize'
-import { connect } from 'react-redux'
+import BoardContainer from './BoardContainer.js'
+import RightToolBar from '../Components/RightToolBar.js'
 
 class HomePageUser extends React.Component {
 

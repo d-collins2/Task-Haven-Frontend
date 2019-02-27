@@ -23,7 +23,7 @@ class TeamPage extends React.Component{
     return (
       <Card className="">
         <Card>
-          {currentUser ?(
+          {team ?(
             <Row>
               <Col s={4}>
               </Col>

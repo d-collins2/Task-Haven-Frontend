@@ -1,22 +1,23 @@
 import React from 'react';
-import Board from '../Components/Board.js'
-import { Card, Row, Col } from 'react-materialize'
 import { connect } from 'react-redux'
+import { Card, Row, Col } from 'react-materialize'
+import Board from '../Components/Board.js'
 
 
 class BoardContainer extends React.Component{
   render () {
-
+    const { currentUser } = this.props
     return (
 
       <Card className="Center cardOver">
         <Row>
-          {this.props.currentUser && this.props.currentUser.teams.map(team => {
+          {currentUser && currentUser.teams.map(team => {
             return team.boards.map(board => {
               return (
                 <Col s={3} m={3} key={board.id}>
                   <Board key={board.id} board={board}/>
-                </Col>)
+                </Col>
+              )
             })
           })}
         </Row>

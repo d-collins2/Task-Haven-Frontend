@@ -3,7 +3,7 @@ import { Card, Row, Col, Button } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction } from '../redux/actions.js'
-import { SignUp } from './SignUp.js'
+
 class Login extends React.Component{
   constructor(props){
     super(props)
@@ -11,6 +11,10 @@ class Login extends React.Component{
       username: '',
       password: ''
     }
+  }
+
+  handleClick = () => {
+    this.props.history.push('/signup')
   }
 
   handleChange = (event) => {
@@ -48,7 +52,7 @@ class Login extends React.Component{
     )
   }
 
-  signUpForm(){
+  loginForm(){
   return(
     <Card>
       <form onSubmit={this.handleLogin}>
@@ -58,7 +62,7 @@ class Login extends React.Component{
           <input onChange={this.handleChange} type="password" name="password" placeholder='Password' />
         <Button className="blue lighten-2">Submit</Button>
       </form>
-      <Button className="blue lighten-2" onClick={null}>SignUp</Button>
+      <Button className="blue lighten-2" onClick={this.handleClick}>SignUp</Button>
     </Card>
   )
 }
@@ -70,7 +74,7 @@ class Login extends React.Component{
       <Row>
         <Col s={5}></Col>
         <Col s={4}>
-          {this.signUpForm()}
+          {this.loginForm()}
         </Col>
       </Row>
     )

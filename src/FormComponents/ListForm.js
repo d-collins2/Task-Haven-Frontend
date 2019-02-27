@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Modal, Card } from 'react-materialize'
 import { connect } from "react-redux"
 
-class Board extends React.Component{
+class List extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -16,7 +16,7 @@ class Board extends React.Component{
     })
   }
 
-  handleBoard = (event) => {
+  handleList = (event) => {
     event.preventDefault()
     return (
       fetch('http://localhost:3000/api/v1/lists', {
@@ -37,14 +37,13 @@ class Board extends React.Component{
     )
   }
 
-
   render(){
     return (
       <Modal
         header='List Form'
         bottomSheet
-        trigger={<Card className="cardOver">New Board</Card>}>
-          <form onSubmit={this.handleBoard}>
+        trigger={<Card className="cardOver">New List</Card>}>
+          <form onSubmit={this.handleList}>
             <label>Name</label>
             <input onChange={this.handleChange} name="name" placeholder='name' />
             <Button className="blue lighten-2">Submit</Button>
@@ -60,4 +59,4 @@ function msp(state){
   }
 }
 
-export default connect(msp)(Board)
+export default connect(msp)(List)

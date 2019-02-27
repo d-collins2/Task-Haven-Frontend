@@ -1,9 +1,9 @@
 import React from 'react';
-import {Row, Col, Card } from 'react-materialize'
+import {Row, Col, Card, Button } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction } from '../redux/actions.js'
-import Button from '@material-ui/core/Button';
+
 class SignUp extends React.Component{
   constructor(props){
     super(props)
@@ -66,7 +66,7 @@ class SignUp extends React.Component{
         <label>Password</label>
         <input onChange={this.handleChange} type="password" name="password" placeholder='Password' />
         <label>Password Confirmation</label>
-        <input onChange={this.handleChange} type="password" name="password" placeholder='Password' />
+        <input onChange={this.handleChange} type="password" name="password_confim" placeholder='Password Confirmation' />
         <Button className="blue lighten-2">Submit</Button>
       </form>
       <Button className="blue lighten-2" onClick={null}>login</Button>
