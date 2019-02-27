@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-logo {
@@ -30,4 +30,22 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.NavBar {
+  background-color: black
+}
+
+.center {
+  align-items: center;
+}
+
+.cardOver {
+  border-top: 2px solid #ee6e73;
+  
+}
+
+.login {
+
+  margin-top: 40%;
 }

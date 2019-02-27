@@ -1,0 +1,5 @@
+export const UPDATE_USER = "UPDATE_USER"
+export const LOGIN = "LOGIN"
+export const LOGOUT = "LOGOUT"
+export const ADD_BOARD = "ADD_BOARD"
+export const TEAM_PAGE = "TEAM_PAGE"
