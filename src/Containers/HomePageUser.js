@@ -7,18 +7,16 @@ import BoardContainer from './BoardContainer.js'
 import RightToolBar from '../Components/RightToolBar.js'
 
 class HomePageUser extends React.Component {
-
-
   render(){
-  return (
-    <Row>
-      <Col  s={2} >
-        <RightToolBar currentUser={this.props.currentUser}/>
-      </Col>
-      <Col s={10} >
-        <BoardContainer />
-      </Col>
-    </Row>
+    return (
+      <Row>
+        <Col  s={2} >
+          <RightToolBar currentUser={this.props.currentUser}/>
+        </Col>
+        <Col s={10} >
+          <BoardContainer />
+        </Col>
+      </Row>
     )
   }
 }

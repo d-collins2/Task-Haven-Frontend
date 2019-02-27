@@ -10,11 +10,11 @@ class RightToolBar extends React.Component{
   }
 
   handleBoardClick = (currentUser) => {
-    this.props.history.push(`/boards`)
+    this.props.history.push(`/`)
   }
 
   handleHomeClick = (currentUser) => {
-    this.props.history.push(`/`)
+    this.props.history.push(`/home`)
   }
 
   render(){
@@ -22,16 +22,32 @@ class RightToolBar extends React.Component{
       return (
         <Card className="Center cardOver">
           <Collection >
-            <CollectionItem className="cardOver" onClick={() => {this.handleBoardClick()}}>Board</CollectionItem>
-            <CollectionItem className="cardOver" onClick={() => {this.handleHomeClick()}}>Home</CollectionItem>
+            <CollectionItem
+              className="cardOver"
+              onClick={() => {this.handleBoardClick()}}
+            >
+              Board
+            </CollectionItem>
+            <CollectionItem
+              className="cardOver"
+              onClick={() => {this.handleHomeClick()}}
+            >
+              Home
+            </CollectionItem>
           </Collection>
           <span>Teams</span>
-          <div>{<TeamForm />}</div>
-
-
+          <>{<TeamForm />}</>
           <Collection className="Center">
             {currentUser && currentUser.teams.map(team => {
-                return <CollectionItem className="cardOver " onClick={()=>{this.handleTeamClick(team)}} key={team.id}>{team.name}</CollectionItem>
+                return (
+                  <CollectionItem
+                    className="cardOver"
+                    onClick={()=>{this.handleTeamClick(team)}}
+                    key={team.id}
+                  >
+                    {team.name}
+                  </CollectionItem>
+                )
               })}
           </Collection>
         </Card>

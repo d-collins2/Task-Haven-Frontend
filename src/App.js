@@ -24,21 +24,21 @@ class App extends Component {
         this.props.updateCurrentUserAction(response)
       })
     } else {
-        this.props.history.push('/login')
+      this.props.history.push('/login')
     }
   }
-
+  BoardPage = () => <BoardPage />
   render(){
     return (
       <div>
         <Naviebar />
         <Switch>
-          <Route exact path='/' render={() => <HomePageUser />}/>
-          <Route exact path='/boards' render={() => <HomePageUser />}/>
-          <Route exact path='/signup' render={() => <SignUp />}/>
-          <Route exact path='/login' render={() => <Login />}/>
-          <Route path='/teams/:id' render={() => <TeamPage handleTeamClick={this.handleTeamClick}/>}/>
-          <Route path='/boards/:id' render={() => <BoardPage />}/>
+          <Route exact path='/' component={HomePageUser}/>
+          <Route path='/home' component={HomePageUser}/>
+          <Route path='/signup' component={SignUp}/>
+          <Route path='/login' component={Login}/>
+          <Route path='/teams/:id' render={TeamPage}/>
+          <Route path='/boards/:id' render={BoardPage}/>
         </Switch>
       </div>
     )
@@ -47,8 +47,7 @@ class App extends Component {
 
 function msp (state){
   return{
-    currentUser: state.currentUser,
-    teamId: state.teamId
+    currentUser: state.currentUser
   }
 }
 

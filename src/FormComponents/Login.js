@@ -47,7 +47,7 @@ class Login extends React.Component{
       } else {
         localStorage.setItem("token", response.jwt )
         this.props.currentUserUpdate(response.user)
-        this.props.history.push('/boards')
+        this.props.history.push('/home')
       }})
     )
   }

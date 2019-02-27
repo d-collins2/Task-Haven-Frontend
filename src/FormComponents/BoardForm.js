@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Modal, Card } from 'react-materialize'
 import { connect } from "react-redux"
 
-class Team extends React.Component{
+class Board extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -16,7 +16,7 @@ class Team extends React.Component{
     })
   }
 
-  handleTeam = (event) => {
+  handleBoard = (event) => {
     event.preventDefault()
     return (
       fetch('http://localhost:3000/api/v1/boards', {
@@ -45,7 +45,7 @@ class Team extends React.Component{
         header='Board Form'
         bottomSheet
         trigger={<Card className="cardOver">New Board</Card>}>
-          <form onSubmit={this.handleTeam}>
+          <form onSubmit={this.handleBoard}>
             <label>Name</label>
             <input onChange={this.handleChange} name="name" placeholder='name' />
             <Button className="blue lighten-2">Submit</Button>
@@ -61,4 +61,4 @@ function msp(state){
   }
 }
 
-export default connect(msp)(Team)
+export default connect(msp)(Board)

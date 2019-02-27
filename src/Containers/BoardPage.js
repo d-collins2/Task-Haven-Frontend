@@ -9,7 +9,7 @@ class BoardPage extends React.Component{
   state = {
     board: null
   }
-  
+
   componentDidMount = () => {
     const id = this.props.location.pathname.split('/')[2]
     fetch(`http://localhost:3000/api/v1/boards/${id}`)
@@ -21,20 +21,21 @@ class BoardPage extends React.Component{
 
   render () {
     const { board } = this.state
+    console.log(board)
     return (
       <Card>
         <Row>
-          {board ? board.lists.map(list => {
+          {board && board.lists.map(list => {
             return (
               <Col key={list.id} s={3}>
                 <Card className=" Center cardOver">
                   <h5 className="">{list.name}</h5>
-                  <ListContainer list={list}/>
+                  <ListContainer board={board} list={list}/>
                 </Card>
               </Col>
-          )}): null}
+          )})}
           <Col s={3}>
-            {board ? <ListForm id={board.id}/> : null}
+            {board && <ListForm id={board.id}/> }
           </Col>
         </Row>
       </Card>

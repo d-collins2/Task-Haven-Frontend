@@ -19,7 +19,14 @@ const Naviebar = ({currentUser, logout, history}) => {
     <Navbar brand='{-_-}' className="NavBar" right>
       <NavItem href='get-started.html'><Icon>search</Icon></NavItem>
       <NavItem href='get-started.html' onClick={() => handleModule()}><Icon>view_module</Icon></NavItem>
-      {currentUser ? <NavItem href='get-started.html' onClick={() => handleLogOut()}>LogOut</NavItem> : null}
+      {currentUser && (
+        <NavItem
+          href='get-started.html'
+          onClick={() => handleLogOut()}
+        >
+          LogOut
+        </NavItem>
+      )}
     </Navbar>
   )
 }

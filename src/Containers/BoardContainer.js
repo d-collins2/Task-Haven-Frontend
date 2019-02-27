@@ -8,10 +8,9 @@ class BoardContainer extends React.Component{
   render () {
     const { currentUser } = this.props
     return (
-
       <Card className="Center cardOver">
         <Row>
-          {currentUser && currentUser.teams.map(team => {
+          {currentUser ? currentUser.teams.map(team => {
             return team.boards.map(board => {
               return (
                 <Col s={3} m={3} key={board.id}>
@@ -19,7 +18,7 @@ class BoardContainer extends React.Component{
                 </Col>
               )
             })
-          })}
+          }): null}
         </Row>
       </Card>
     )
@@ -32,10 +31,4 @@ function msp(state){
   }
 }
 
-function mdp(dispatch){
-  return {
-    // addBoard: dispatch(addBoard())
-  }
-}
-
-export default connect(msp, mdp)(BoardContainer)
+export default connect(msp)(BoardContainer)

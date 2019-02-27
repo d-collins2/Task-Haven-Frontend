@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Modal, Card } from 'react-materialize'
 import { connect } from "react-redux"
 
-class Task extends React.Component{
+class TaskForm extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -32,7 +32,7 @@ class Task extends React.Component{
     })
     .then(res => res.json())
     .then(response => {
-
+      console.log(response);
     })
     )
   }
@@ -59,4 +59,4 @@ function msp(state){
   }
 }
 
-export default connect(msp)(Task)
+export default connect(msp)(TaskForm)

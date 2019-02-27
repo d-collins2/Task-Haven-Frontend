@@ -3,7 +3,7 @@ import { Modal, Card, Button } from 'react-materialize'
 import { connect } from "react-redux"
 import { updateCurrentUserAction } from '../redux/actions.js'
 
-class Team extends React.Component{
+class TeamForm extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -33,7 +33,7 @@ class Team extends React.Component{
     })
     .then(res => res.json())
     .then(response => {
-      
+      console.log(response)
     })
     )
   }
@@ -41,16 +41,18 @@ class Team extends React.Component{
 
   render(){
     return (
-      <Modal
-        header='Modal Header'
-        bottomSheet
-        trigger={<Card className="cardOver">New Team</Card>}>
-          <form onSubmit={this.handleTeam}>
-            <label>Name</label>
-            <input onChange={this.handleChange} name="name" placeholder='name' />
-            <Button className="blue lighten-2">Submit</Button>
-          </form>
-      </Modal>
+      <Card>
+        <Modal
+          header='Team Form'
+          bottomSheet
+          trigger={<span className="cardOver">New Team</span>}>
+            <form onSubmit={this.handleTeam}>
+              <label>Name</label>
+              <input onChange={this.handleChange} name="name" placeholder='name' />
+              <Button className="blue lighten-2">Submit</Button>
+            </form>
+        </Modal>
+      </Card>
     )
   }
 }
@@ -61,4 +63,4 @@ function msp(state){
   }
 }
 
-export default connect(msp, {updateCurrentUserAction})(Team)
+export default connect(msp, {updateCurrentUserAction})(TeamForm)

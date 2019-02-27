@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 const Board = ({board, history}) => {
 
   const handleClick = () => {
+    console.log('hi')
     history.push(`/boards/${board.id}`)
   }
 
