@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Card, Row, Col } from 'react-materialize'
+import { Row, Col } from 'react-materialize'
 import Board from '../Components/Board.js'
 
 
@@ -8,7 +8,7 @@ class BoardContainer extends React.Component{
   render () {
     const { currentUser } = this.props
     return (
-      <Card className="Center cardOver">
+      <>
         <Row>
           {currentUser ? currentUser.teams.map(team => {
             return team.boards.map(board => {
@@ -20,7 +20,7 @@ class BoardContainer extends React.Component{
             })
           }): null}
         </Row>
-      </Card>
+      </>
     )
   }
 }

@@ -16,6 +16,10 @@ class List extends React.Component{
     })
   }
 
+  forceUpdate = () => {
+    this.forceUpdate()
+  }
+
   handleList = (event) => {
     event.preventDefault()
     return (
@@ -31,9 +35,7 @@ class List extends React.Component{
       })
     })
     .then(res => res.json())
-    .then(response => {
-
-    })
+    .then(window.location.reload())
     )
   }
 
@@ -42,11 +44,11 @@ class List extends React.Component{
       <Modal
         header='List Form'
         bottomSheet
-        trigger={<Card className="cardOver">New List</Card>}>
-          <form onSubmit={this.handleList}>
+        trigger={<Card className="opacity grey ligthen-3">New List</Card>}>
+          <form  onSubmit={this.handleList} modal='close'>
             <label>Name</label>
             <input onChange={this.handleChange} name="name" placeholder='name' />
-            <Button className="blue lighten-2">Submit</Button>
+            <Button modal='close' className="blue lighten-2">Submit</Button>
           </form>
       </Modal>
     )

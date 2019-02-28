@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-materialize'
 import { connect } from 'react-redux'
-import { addBoard } from '../redux/actions.js'
 import Board from '../Components/Board.js'
 import BoardForm from '../FormComponents/BoardForm'
 
@@ -31,4 +30,4 @@ function msp(state){
   }
 }
 
-export default connect(msp, {addBoard})(TeamBoardContainer)
+export default connect(msp)(TeamBoardContainer)

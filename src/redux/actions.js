@@ -1,6 +1,4 @@
-import { UPDATE_USER, LOGIN, ADD_BOARD, TEAM_PAGE, LOGOUT } from "./types.js"
-
-
+import { UPDATE_USER, LOGIN, TEAM_PAGE, LOGOUT, DELETE_LIST } from "./types.js"
 
 export function updateUserAction(src) {
   return {
@@ -22,9 +20,9 @@ export function logout(){
   }
 }
 
-export function addBoard(src){
+export function deleteList(src){
   return {
-    type: ADD_BOARD,
+    type: DELETE_LIST,
     payload: src
   }
 }

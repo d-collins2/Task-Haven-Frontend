@@ -21,14 +21,14 @@ class BoardPage extends React.Component{
 
   render () {
     const { board } = this.state
-    console.log(board)
     return (
-      <Card>
+      <>
+      <Card className=''>
         <Row>
           {board && board.lists.map(list => {
             return (
               <Col key={list.id} s={3}>
-                <Card className=" Center cardOver">
+                <Card className=" Center grey lighten-3">
                   <h5 className="">{list.name}</h5>
                   <ListContainer board={board} list={list}/>
                 </Card>
@@ -39,6 +39,7 @@ class BoardPage extends React.Component{
           </Col>
         </Row>
       </Card>
+      </>
     )
   }
 }

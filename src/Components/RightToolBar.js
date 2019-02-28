@@ -5,9 +5,6 @@ import { Card, Collection, CollectionItem } from 'react-materialize'
 import TeamForm from '../FormComponents/TeamForm.js'
 
 class RightToolBar extends React.Component{
-  handleTeamClick = (team) => {
-    this.props.history.push(`/teams/${team.id}`)
-  }
 
   handleBoardClick = (currentUser) => {
     this.props.history.push(`/`)
@@ -20,36 +17,21 @@ class RightToolBar extends React.Component{
   render(){
     const { currentUser } = this.props
       return (
-        <Card className="Center cardOver">
-          <Collection >
-            <CollectionItem
-              className="cardOver"
-              onClick={() => {this.handleBoardClick()}}
-            >
-              Board
-            </CollectionItem>
-            <CollectionItem
-              className="cardOver"
-              onClick={() => {this.handleHomeClick()}}
-            >
-              Home
-            </CollectionItem>
-          </Collection>
-          <span>Teams</span>
-          <>{<TeamForm />}</>
-          <Collection className="Center">
+        <Card className="Center cardOver ">
+          <Collection className="Center z-depth-1">
             {currentUser && currentUser.teams.map(team => {
                 return (
                   <CollectionItem
                     className="cardOver"
-                    onClick={()=>{this.handleTeamClick(team)}}
                     key={team.id}
+                  href={`/teams/${team.id}`}
                   >
                     {team.name}
                   </CollectionItem>
                 )
               })}
           </Collection>
+            <>{<TeamForm />}</>
         </Card>
       )
   }

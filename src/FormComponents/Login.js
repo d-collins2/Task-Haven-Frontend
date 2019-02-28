@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Row, Col, Button } from 'react-materialize'
+import { Card, Row, Col, Button, Input } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction } from '../redux/actions.js'
@@ -54,14 +54,12 @@ class Login extends React.Component{
 
   loginForm(){
   return(
-    <Card>
-      <form onSubmit={this.handleLogin}>
-        <label>Username</label>
-        <input onChange={this.handleChange} name="username" placeholder='Username' />
-          <label>Password</label>
-          <input onChange={this.handleChange} type="password" name="password" placeholder='Password' />
-        <Button className="blue lighten-2">Submit</Button>
-      </form>
+    <Card className="Center">
+      <Row >
+        <Input onChange={this.handleChange} s={6} label='Username' name="username" placeholder='Username' />
+        <Input onChange={this.handleChange} s={6} label='Password' type="password" name="password" placeholder='Password' />
+        <Button onClick={this.handleLogin} className="blue lighten-2">Submit</Button>
+      </Row>
       <Button className="blue lighten-2" onClick={this.handleClick}>SignUp</Button>
     </Card>
   )
@@ -69,7 +67,6 @@ class Login extends React.Component{
 
 
   render(){
-    console.log(this.state, this.props);
     return (
       <Row>
         <Col s={5}></Col>

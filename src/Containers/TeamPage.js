@@ -9,6 +9,7 @@ class TeamPage extends React.Component{
   render () {
     const { currentUser, location} = this.props
     const id = location.pathname.split('/')[2]
+    // eslint-disable-next-line
     const team = currentUser && currentUser.teams.find(team => team.id == id)
 
     return (

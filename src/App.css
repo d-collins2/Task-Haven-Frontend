@@ -44,7 +44,17 @@
   border-top: 2px solid #ee6e73;
 
 }
+.color {
+  background-color: #e4e4e4;
+}
+.font {
+  color: white;
+}
 
+.opacity {
+  color: white;
+  opacity: 0.3;
+}
 .login {
 
   margin-top: 40%;

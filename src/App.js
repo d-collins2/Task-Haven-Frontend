@@ -13,6 +13,7 @@ import SignUp from './FormComponents/SignUp.js'
 class App extends Component {
   componentDidMount = () => {
     let token = localStorage.getItem("token")
+
     if (token) {
       fetch('http://localhost:3000/api/v1/current_user/', {
         headers: {
@@ -29,6 +30,7 @@ class App extends Component {
   }
   BoardPage = () => <BoardPage />
   render(){
+    console.log(this.state)
     return (
       <div>
         <Naviebar />

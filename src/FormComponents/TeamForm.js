@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Card, Button } from 'react-materialize'
+import { Modal, Button } from 'react-materialize'
 import { connect } from "react-redux"
 import { updateCurrentUserAction } from '../redux/actions.js'
 
@@ -32,27 +32,23 @@ class TeamForm extends React.Component{
       })
     })
     .then(res => res.json())
-    .then(response => {
-      console.log(response)
-    })
+    .then(window.location.reload())
     )
   }
 
 
   render(){
     return (
-      <Card>
-        <Modal
-          header='Team Form'
-          bottomSheet
-          trigger={<span className="cardOver">New Team</span>}>
-            <form onSubmit={this.handleTeam}>
-              <label>Name</label>
-              <input onChange={this.handleChange} name="name" placeholder='name' />
-              <Button className="blue lighten-2">Submit</Button>
-            </form>
-        </Modal>
-      </Card>
+      <Modal
+        header='Team Form'
+        bottomSheet
+        trigger={<Button className='blue lighten-2'>Teams</Button>}>
+          <form onSubmit={this.handleTeam}>
+            <label>Name</label>
+            <input onChange={this.handleChange} name="name" placeholder='name' />
+            <Button className="blue lighten-2">Submit</Button>
+          </form>
+      </Modal>
     )
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavItem, Icon } from 'react-materialize'
+import { Navbar, NavItem } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { logout } from '../redux/actions.js'
@@ -11,21 +11,19 @@ const Naviebar = ({currentUser, logout, history}) => {
     history.push('/login')
   }
 
-  const handleModule = () => {
-    history.push('/boards')
-  }
-
   return (
     <Navbar brand='{-_-}' className="NavBar" right>
-      <NavItem href='get-started.html'><Icon>search</Icon></NavItem>
-      <NavItem href='get-started.html' onClick={() => handleModule()}><Icon>view_module</Icon></NavItem>
       {currentUser && (
-        <NavItem
-          href='get-started.html'
-          onClick={() => handleLogOut()}
-        >
-          LogOut
-        </NavItem>
+        <>
+          <NavItem href='/'>Boards</NavItem>
+          <NavItem href='/home'>Home</NavItem>
+          <NavItem
+            href='/login'
+            onClick={() => handleLogOut()}
+          >
+            LogOut
+          </NavItem>
+        </>
       )}
     </Navbar>
   )

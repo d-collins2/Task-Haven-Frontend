@@ -31,9 +31,9 @@ class Board extends React.Component{
       })
     })
     .then(res => res.json())
-    .then(response => {
-
-    })
+    .then(
+       window.location.reload()
+    )
     )
   }
 
