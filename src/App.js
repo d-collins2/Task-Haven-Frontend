@@ -5,6 +5,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import { updateCurrentUserAction, updateTeamId } from './redux/actions.js'
 import BoardPage from './Containers/BoardPage.js'
 import HomePageUser from './Containers/HomePageUser.js'
+import UserProfile from './Containers/UserProfile.js'
 import TeamPage from './Containers/TeamPage.js'
 import Naviebar from './Components/Naviebar.js'
 import Login from './FormComponents/Login.js'
@@ -37,6 +38,7 @@ class App extends Component {
         <Switch>
           <Route exact path='/' component={HomePageUser}/>
           <Route path='/home' component={HomePageUser}/>
+          <Route path='/profile' component={UserProfile}/>
           <Route path='/signup' component={SignUp}/>
           <Route path='/login' component={Login}/>
           <Route path='/teams/:id' render={TeamPage}/>

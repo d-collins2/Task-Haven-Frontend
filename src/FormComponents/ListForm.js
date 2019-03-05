@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Modal, Card } from 'react-materialize'
+import {  Modal, Card } from 'react-materialize'
 import { connect } from "react-redux"
-
+import { Button } from 'semantic-ui-react'
 class List extends React.Component{
   constructor(props){
     super(props)

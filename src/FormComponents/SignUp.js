@@ -1,8 +1,9 @@
 import React from 'react';
-import {Row, Col, Card, Button } from 'react-materialize'
+import {Row, Col, Card } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction } from '../redux/actions.js'
+import { Button } from 'semantic-ui-react'
 
 class SignUp extends React.Component{
   constructor(props){
@@ -13,7 +14,8 @@ class SignUp extends React.Component{
       password_confim: '',
       first_name:'',
       last_name:'',
-      email: ''
+      email: '',
+      img_url: ""
     }
   }
 
@@ -21,6 +23,10 @@ class SignUp extends React.Component{
     this.setState({
       [event.target.name]: event.target.value
     })
+  }
+
+  handleClick = () => {
+    this.props.history.push('/login')
   }
 
   handleLogin = (event) => {
@@ -39,7 +45,8 @@ class SignUp extends React.Component{
             last_name: this.state.last_name,
             username: this.state.username,
             password: this.state.password,
-            email: this.state.email
+            email: this.state.email,
+            img_url: this.state.img_url
           }
         })
       })
@@ -61,15 +68,23 @@ class SignUp extends React.Component{
         <input onChange={this.handleChange} name="first_name" placeholder='first_name' />
         <label>Last Name</label>
         <input onChange={this.handleChange} name="last_name" placeholder='last_name' />
+        <label>Email</label>
+        <input onChange={this.handleChange} name="email" placeholder='email' />
         <label>Username</label>
         <input onChange={this.handleChange} name="username" placeholder='Username' />
+        <label>Image</label>
+        <input onChange={this.handleChange} name="img_url" placeholder='Image' />
         <label>Password</label>
         <input onChange={this.handleChange} type="password" name="password" placeholder='Password' />
         <label>Password Confirmation</label>
         <input onChange={this.handleChange} type="password" name="password_confim" placeholder='Password Confirmation' />
-        <Button className="blue lighten-2">Submit</Button>
+          <Button.Group>
+            <Button onClick={this.handleLogin} positive>Submit</Button>
+            <Button.Or />
+            <Button className="blue lighten-2" onClick={this.handleClick}>Login</Button>
+          </Button.Group>
       </form>
-      <Button className="blue lighten-2" onClick={null}>login</Button>
+
     </Card>
   )
 }

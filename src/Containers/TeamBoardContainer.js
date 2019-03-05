@@ -3,15 +3,16 @@ import { Row, Col } from 'react-materialize'
 import { connect } from 'react-redux'
 import Board from '../Components/Board.js'
 import BoardForm from '../FormComponents/BoardForm'
+import {withRouter} from 'react-router-dom'
 
 class TeamBoardContainer extends React.Component{
   render () {
     const {team, currentUser} = this.props
     return (
         <Row >
-          {currentUser && team.boards.map(board => {
+          {currentUser && currentUser.teams_info[team.id].boards.map(board => {
               return (
-                <Col s={3} m={3} key={board.id}>
+                <Col s={3} m={3}>
                   <Board key={board.id} board={board}/>
                 </Col>)
             })
@@ -30,4 +31,4 @@ function msp(state){
   }
 }
 
-export default connect(msp)(TeamBoardContainer)
+export default withRouter(connect(msp)(TeamBoardContainer))

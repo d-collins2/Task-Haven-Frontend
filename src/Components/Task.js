@@ -1,14 +1,15 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Card, Modal, Button, Row, Col, Collection, CollectionItem, Input } from 'react-materialize'
+import { Card, Modal, Button, Row, Col, Collection, CollectionItem, Input, Icon } from 'react-materialize'
 import MoveOver from './MoveOver.js'
 
-class Task  extends React.Component{
+class Task  extends React.Component<TaskProps & TaskCollectedProps> {
   state = {
     name: '',
     due_date: '',
     description: ''
   }
+
   handleSubmit = () => {
     fetch(`http://localhost:3000/api/v1/tasks/${this.props.task.id}`, {
     method: 'PATCH',
@@ -22,8 +23,8 @@ class Task  extends React.Component{
       description: this.state.description
     })
   })
-  .then(res => res.json())
-  .then(window.location.reload())
+    .then(res => res.json())
+    .then(window.location.reload())
   }
 
   handleChange = (event) => {
@@ -37,16 +38,43 @@ class Task  extends React.Component{
     .then(window.location.reload())
   }
 
-  render(){
+  labels = () => {
+    switch(this.props.task.labels) {
+      case "blue":
+        return <i className="material-icons blue600 left">fiber_manual_record</i>
+      case "red":
+        return <i className="material-icons red600 left">fiber_manual_record</i>
+      case "yellow":
+        return <i className="material-icons yellow600 left">fiber_manual_record</i>
+      case "green":
+        return <i className="material-icons green600 left">fiber_manual_record</i>
+      case "orange":
+        return <i className="material-icons orange600 left">fiber_manual_record</i>
+      default:
+        return null
+    }
+  }
+
+  taskInfo = () => {
+    const { task } = this.props
+    return (
+      <div className="grey lighten-4">
+        <Card>
+          { task.name }
+          {task.labels ? this.labels() : null}
+        </Card>
+      </div>
+    )
+  }
+
+  modalInfo = () => {
     const { handleChange, handleSubmit, handleDelete } = this
     const { task, board } = this.props
     // eslint-disable-next-line
     const filtered = () => board ? board.lists.filter(list => list.id != task.list_id) : null
+
     return (
-      <Modal
-        className='Center modal-close'
-        trigger={ <Card className="grey lighten-4"><p>{ task.name }</p></Card> }
-      >
+      <Modal className='modal-close' trigger={ this.taskInfo() }>
           <Row>
             <Col s={2} m={8}>
               <Row >
@@ -69,16 +97,22 @@ class Task  extends React.Component{
               <Card className="z-depth-1" >
                 <Collection defaultValue="1">
                   {filtered() && filtered().map(list => {
-                    return  <CollectionItem key={ task.id }><MoveOver task={ task } id={ list.id } list={ list }/></CollectionItem>
+                    return  <CollectionItem key={ list.id }><MoveOver task={ task } id={ list.id } list={ list }/></CollectionItem>
                   })}
                 </Collection>
-                <Button onClick={ handleDelete } className="red">Delete</Button>
+                <Button onClick={ handleDelete } className="red"><Icon large>delete</Icon><br/></Button>
               </Card>
             </Col>
           </Row>
-      </Modal>
+      </Modal>)}
+
+  render(){
+    return (
+    <div >
+      {this.modalInfo()}
+    </div>
     )
   }
 }
 
-export default withRouter(Task)
+export default withRouter((Task))

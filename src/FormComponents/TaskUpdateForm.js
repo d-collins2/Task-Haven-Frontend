@@ -1,7 +1,8 @@
 import React from 'react';
-import { Modal, Button } from 'react-materialize'
+import { Modal } from 'react-materialize'
 import { connect } from "react-redux"
 import { updateCurrentUserAction } from '../redux/actions.js'
+import { Button } from 'semantic-ui-react'
 
 class TaskUpdateForm extends React.Component{
   constructor(props){

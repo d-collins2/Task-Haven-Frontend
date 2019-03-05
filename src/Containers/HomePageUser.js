@@ -7,16 +7,23 @@ import BoardContainer from './BoardContainer.js'
 import RightToolBar from '../Components/RightToolBar.js'
 
 class HomePageUser extends React.Component {
+  cardInfo = () => {
+    return <span>{this.props.currentUser.full_name}</span>
+  }
   render(){
+    const {currentUser} = this.props
     return (
+    <>
+
       <Row>
-        <Col  s={2} >
-          <RightToolBar currentUser={this.props.currentUser}/>
+        <Col  s={3} >
+          <RightToolBar currentUser={currentUser}/>
         </Col>
-        <Col s={10} >
+        <Col s={9} >
           <BoardContainer />
         </Col>
       </Row>
+    </>
     )
   }
 }

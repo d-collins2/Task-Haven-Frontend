@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import  ListForm  from '../FormComponents/ListForm.js'
 import ListContainer from '../Containers/ListContainer.js'
+import BoardNavbar from '../Components/BoardNaviebar.js'
 
 class BoardPage extends React.Component{
   state = {
@@ -21,25 +22,27 @@ class BoardPage extends React.Component{
 
   render () {
     const { board } = this.state
+    console.log(this.props.currentUser)
     return (
-      <>
-      <Card className=''>
-        <Row>
-          {board && board.lists.map(list => {
-            return (
-              <Col key={list.id} s={3}>
-                <Card className=" Center grey lighten-3">
-                  <h5 className="">{list.name}</h5>
-                  <ListContainer board={board} list={list}/>
-                </Card>
-              </Col>
-          )})}
-          <Col s={3}>
-            {board && <ListForm id={board.id}/> }
-          </Col>
-        </Row>
-      </Card>
-      </>
+      <div>
+        <BoardNavbar />
+        <Card className=''>
+          <Row>
+            {board && board.lists.map(list => {
+              return (
+                <Col key={list.id} s={2}>
+                  <Card className=" Center grey lighten-3">
+                    <h5 className="">{list.name}</h5>
+                    <ListContainer board={board} list={list}/>
+                  </Card>
+                </Col>
+            )})}
+            <Col s={2}>
+              {board && <ListForm id={board.id}/> }
+            </Col>
+          </Row>
+        </Card>
+      </div>
     )
   }
 }

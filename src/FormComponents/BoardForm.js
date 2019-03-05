@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Modal, Card } from 'react-materialize'
+import { Modal, Card } from 'react-materialize'
 import { connect } from "react-redux"
+import { Button } from 'semantic-ui-react'
 
 class Board extends React.Component{
   constructor(props){
@@ -39,12 +40,11 @@ class Board extends React.Component{
 
 
   render(){
-    console.log(this.state, this.props);
     return (
       <Modal
         header='Board Form'
         bottomSheet
-        trigger={<Card className="cardOver">New Board</Card>}>
+        trigger={<Card className="opacity font grey lighten-1">New Board</Card>}>
           <form onSubmit={this.handleBoard}>
             <label>Name</label>
             <input onChange={this.handleChange} name="name" placeholder='name' />

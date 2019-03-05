@@ -7,18 +7,18 @@ import Board from '../Components/Board.js'
 class BoardContainer extends React.Component{
   render () {
     const { currentUser } = this.props
+    console.log(currentUser)
     return (
       <>
         <Row>
-          {currentUser ? currentUser.teams.map(team => {
-            return team.boards.map(board => {
+          {currentUser && currentUser.boards.map(board => {
               return (
                 <Col s={3} m={3} key={board.id}>
                   <Board key={board.id} board={board}/>
                 </Col>
               )
             })
-          }): null}
+          }
         </Row>
       </>
     )

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Modal, Card, Row, Input, Col } from 'react-materialize'
+import { Modal, Row, Input, Col, Icon } from 'react-materialize'
 import { connect } from "react-redux"
+import { Button } from 'semantic-ui-react'
 
 class TaskForm extends React.Component{
   constructor(props){
@@ -41,18 +42,18 @@ class TaskForm extends React.Component{
 
   modalTrigger = () => {
     return (
-      <Card className="opacity grey ligthen-3">New Task</Card>
+      <Button className="opacity font grey ligthen-3"><Icon >add</Icon></Button>
     )
   }
   render(){
-    const { handleChange, handleSubmit } = this
+    const { handleChange, handleTask } = this
     return (
       <Modal
         className="Center model-close"
         header="Create A New Task!"
         trigger={this.modalTrigger()}>
           <Row >
-            <Input onChange={ handleChange } s={6} label='Name of Team' name="name"  />
+            <Input onChange={ handleChange } s={6} label='Name of Task' name="name"  />
             <Input s={6} label='Due Date' name='due_date' type='date' onChange={ handleChange} />
             <Input onChange={ handleChange } s ={12} label='descritption' type="textarea" name="descritption"  />
               <Row>
@@ -64,7 +65,7 @@ class TaskForm extends React.Component{
                   <Input name='group1' type='checkbox' value='blue' label='Blue' className='filled-in' />
                 </Col>
               </Row>
-            <Button onClick={ handleSubmit } className="blue lighten-2">Submit</Button>
+            <Button onClick={ handleTask } className="blue lighten-2">Submit</Button>
           </Row>
       </Modal>
     )
