@@ -8,7 +8,6 @@ This React web app was deisgned to be the responsive front-end for my final proj
 - [Installation](#installation)
 - [Structure](#structure)
 - [Containers](#containers)
-- [Redux](#redux)
 - [User Accounts](#user-accounts)
 - [Future Development](#future-development)
 
@@ -45,17 +44,6 @@ This container is responsible for displaying the teams associated boards, team m
 ### UserProfile
 
 This container is responsible for displaying the user associated boards, teams and a settings tab. The boards tab containes the `BoardContainer.js`, which is responsible for rendering boards associated with the current user being displayed.
-
-## Redux
-
-### Actions 
-
-### Reducers 
-
-### Store 
-
-### Types 
-
 
 
 
