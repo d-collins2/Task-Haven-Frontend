@@ -26,19 +26,24 @@ The top-level folder of Trello includes a `public` folder, which holds the `inde
 The `src` folder includes five main folders: `redux`, handles the Redux logic responsible for the app's state management, `containers`, which organizes the top-level components which display lower-level components,  `components`, which organizes the bulk of the app's logic and content which needs to be rendered in their specific containers, `forms`, which organizes the different types of form components used in the app, `index.js` handles how the app is mounted into the `index.html` file in the top-level folder. 
 
 ## Containers
-My app is composed of 7 container components: 
+My app is composed of 4 main container components with several lower-leveled components attached to them: 
 
-### boardContainer 
+### BoardPage 
 
-This component is used to render the users boards which are created through the component `board.js`.  
+This container is responsible for the main functionality of the app. It is used to render the many `ListContainer.js` associated with the board chosen. The `ListContainer.js` associated with the board is rendered and shows the corresponding `List.js` components which render its `Task.js` and allow for the drag and drop actions to occcur.
 
-### boardPage 
+### HomePageUser 
 
-This component is responsible for the main functionality of the app. It is used to render the `list.js` and `task.js` associated with the current `board.js` being displayed. 
+This container is responsible for the homepage which is seen on login. It renders the users associated `BoardContainer.js` and `RightToolBar.js`. The `BoardContainer` is used to render the users boards which are created through the component `board.js`. 
 
-### homePageUser 
 
-This component is responsible for the homepage which is seen on login. It renders the users associated `boardContainer.js`. The `rightToolBar.js` renders the teams associated with the user as well as a form to create a new team.
+### TeamPage 
+
+This container is responsible for displaying the teams associated boards, team members and a settings tab. The boards tab containes the `TeamBoardContainer.js`, which is responsible for rendering boards associated with the current team being displayed.
+
+### UserProfile
+
+This container is responsible for displaying the user associated boards, teams and a settings tab. The boards tab containes the `BoardContainer.js`, which is responsible for rendering boards associated with the current user being displayed.
 
 ## Redux
 
