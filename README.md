@@ -13,7 +13,7 @@ This React web app was deisgned to be the responsive front-end for my final proj
 
 ## Libraries & Middleware
 
-Trello was built using [create-react-app](https://github.com/facebook/create-react-app) and comes with the dependencies therein. [Redux](https://github.com/reduxjs/redux) is used for state management, and the file structure is arranged accordingly; see below. [React Materialize](https://github.com/react-materialize/react-materialize) manages the display. [React Router](https://github.com/ReactTraining/react-router) handles component rendering and navigation based on the URL/browse history.
+Trello was built using [create-react-app](https://github.com/facebook/create-react-app) and comes with the dependencies therein. [Redux](https://github.com/reduxjs/redux) is used for state management, and the file structure is arranged accordingly; see below. [React Materialize](https://github.com/react-materialize/react-materialize) manages the display. [Semantic UI](https://github.com/Semantic-Org/Semantic-UI-React) is used to help with functionality when organizing your own boards. [React Router](https://github.com/ReactTraining/react-router) handles component rendering and navigation based on the URL/browse history.
 
 ## Installation 
 
@@ -21,53 +21,26 @@ To get started with Trello, fork this repository and clone it to your hard drive
 
 ## Structure
 
-The top-level folder of Apostrophe includes a `public` folder, which holds the `index.html` file where the app is officially rendered by React, an `src` folder which holds the application itself, and then a few other files: the .gitignore, README, and package.json. 
+The top-level folder of Trello includes a `public` folder, which holds the `index.html` file where the app is officially rendered by React, an `src` folder which holds the application itself, a `design` folder which holds [Semantic UI's](https://github.com/Semantic-Org/Semantic-UI-React) functionality, and then a few other files: .gitignore, README, and package.json. 
 
-The `src` folder includes one main folders: `components`, which organizes the bulk of the app's logic and content, and `store`, which organizes the Redux logic responsible for the app's state management. `index.js` handles how the app is mounted into the `index.html` file in the top-level folder. 
+The `src` folder includes five main folders: `redux`, handles the Redux logic responsible for the app's state management, `containers`, which organizes the top-level components which display lower-level components,  `components`, which organizes the bulk of the app's logic and content which needs to be rendered in their specific containers, `forms`, which organizes the different types of form components used in the app, `index.js` handles how the app is mounted into the `index.html` file in the top-level folder. 
 
 Each sub-folder in `components` is, *surprise*, divided into the main components of the app. The file within each sub-folder that ends with the term 'Mod' contains the Redux logic for that respective component. The majority of fetch requests occur in here. Files that end with `Container` house the highest-level responsibilitty for each component, and demonstrate the context for which other sub-components might be rendered within. Sub-component files end with a descriptive tag of their responsibility. For instance: `NavSearch.js` is a component that is responsible for the search feature within the app, and is invoked inside `NavContainer.js`. 
 
-## Components
+## Containers
+My app is composed of 7 container components: 
 
-Apostrophe is composed of six main components:
+### boardContainer 
 
-### app 
+This component is used to render the users boards which are created through the component `board.js`.  
 
-The `app` component houses the entire application. All other components will be rendered within this component. The corresponding .css file in the `app` folder rules all styling within the app.
+### boardPage 
 
-### browse
+This component is responsible for the main functionality of the app. It is used to render the `list.js` and `task.js` associated with the current `board.js` being displayed. 
 
-This component is responsible for the side-panel that appears when someone clicks `browse` in the nav component. Selecting a filter/category sends a string of the filter's name to the backend and tthe databse is queried based on the selected filter. The compent is designed to unmount when the user's mouse has moved outside of it. *This feature is not well suited to mobile devices and needs to be redone*
+### homePageUser 
 
-### nav
+This component is responsible for the homepage which is seen on login. It renders the users associated `boardContainer.js`. The `rightToolBar.js` renders the teams associated with the user as well as a form to create a new team.
 
-The `nav` component is responsible for the main navigation/component rendering within the app. It holds a special sub-component, `navSearch.js`, which is a search bar that is built right into the component itself. There is no submit button for the search bar. Instead, the component waits a few seconds after the user's final keystroke before sending the input to the backend to query the database. 
+## Redux
 
-### pubs
-
-`pbs` handles all visualization of publications within the app: from the grid on the homepage and the search/browse results to each individual publication page and the `PubStar` components that allow a user to favorite a publication when logged in. 
-
-### user
-
-The `user` component and its subcomponents are structured very similarly to `pubs` because components related to the user occupy similar space within the app as the components that handle publications. 
-
-### userForm
-
-This component handles user login and signup using Redux Form. A succesful login stores the user's plain id in the browser's localStorage, so it's absolutely not secure! 
-
-
-## User Accounts
-
-Users do not experience many obstacles regarding sign-up: there are no requirements or validations. After a user has logged in or signs up, they are able to upload profile images, edit bios, favorite publications, and follow other users. When a Publication is rendered, related publications in a section underneath the selected publication. These related publications are dependent on user likes in common by a gem in the backend. User images are stored in a Cloudinary account and handled by the backend. 
-
-## Future Development
-
-Some ideas for features to add in the future:
-
-### Accepting Contributions Through A Form
-
-For the sake of regulating what is saved to the database, there is no form available to contribute to the list of publications. Right now, the users are suggested in the `info` page to submit an e-mail to a given address with information regarding a publication that should be included. I'd like to create a modal form that generates an e-mail that I can approve from my inbox so that people can submit new publications more quickly. 
-
-### Including Recent Article Headlines from Publications
-
-Publication pages should dynamically update to include recent or all article titles from each publication's page, perhaps through a scraping mechanism. Users should also be able to save these as favorites. 
