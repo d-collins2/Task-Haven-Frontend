@@ -4,7 +4,7 @@ This React web app was deisgned to be the responsive front-end for my final proj
 
 ## Contents
 
-- [Libraries & Middleware](#libraries--middleware)
+- [Libraries](#libraries)
 - [Installation](#installation)
 - [Structure](#structure)
 - [Components](#components)
