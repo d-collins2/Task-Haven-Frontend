@@ -1,70 +1,73 @@
-## Trello: Front End
+## Trello Clone: Front End
+
+This React web app was deisgned to be the responsive front-end for my final project at Flatiron School. It is designed to be my take on the popular web based list making application which gives you a visual representation of a project you are working on. 
+
+## Contents
+
+- [Libraries & Middleware](#libraries--middleware)
+- [Installation](#installation)
+- [Structure](#structure)
+- [Components](#components)
+- [User Accounts](#user-accounts)
+- [Future Development](#future-development)
+
+## Libraries & Middleware
+
+Trello was built using [create-react-app](https://github.com/facebook/create-react-app) and comes with the dependencies therein. [Redux](https://github.com/reduxjs/redux) is used for state management, and the file structure is arranged accordingly; see below. [Redux Thunk](https://github.com/reduxjs/redux-thunk) middelware manages fetch-request responses within actions. [React Transition Group](https://github.com/reactjs/react-transition-group) handles essential component transitions, including displaying the browse and log-in side panels. [React Masonry CSS](https://github.com/paulcollett/react-masonry-css) manages the display of publications on the home page. [React Router](https://github.com/ReactTraining/react-router) handles component rendering and navigation based on the URL/browse history. [Redux Form](https://github.com/erikras/redux-form) makes logging in and signing up much more simple and controlled. 
+
+## Installation 
+
+To get started with Apostrophe, fork this repository and clone it to your hard drive. CD into the folder and run ```npm install```. Once the dependencies have been installed, you can run ```npm start``` to get your app running. Your locally-hosted version of the app, like the live version, will receive information from a Ruby on Rails backend hosted at apostrophe-back-end.herokuapp.com. For more information about how the back-end is structured, visit [this](https://github.com/critsmet/apostrophe-back-end) repository. *The app currently does not provide a variable that changes the location of the fetch request depending on environment being production or development. This will be updated soon.* 
+
+## Structure
+
+The top-level folder of Apostrophe includes a `public` folder, which holds the `index.html` file where the app is officially rendered by React, an `src` folder which holds the application itself, and then a few other files: the .gitignore, README, and package.json. 
+
+The `src` folder includes one main folders: `components`, which organizes the bulk of the app's logic and content, and `store`, which organizes the Redux logic responsible for the app's state management. `index.js` handles how the app is mounted into the `index.html` file in the top-level folder. 
+
+Each sub-folder in `components` is, *surprise*, divided into the main components of the app. The file within each sub-folder that ends with the term 'Mod' contains the Redux logic for that respective component. The majority of fetch requests occur in here. Files that end with `Container` house the highest-level responsibilitty for each component, and demonstrate the context for which other sub-components might be rendered within. Sub-component files end with a descriptive tag of their responsibility. For instance: `NavSearch.js` is a component that is responsible for the search feature within the app, and is invoked inside `NavContainer.js`. 
+
+## Components
+
+Apostrophe is composed of six main components:
+
+### app 
+
+The `app` component houses the entire application. All other components will be rendered within this component. The corresponding .css file in the `app` folder rules all styling within the app.
+
+### browse
+
+This component is responsible for the side-panel that appears when someone clicks `browse` in the nav component. Selecting a filter/category sends a string of the filter's name to the backend and tthe databse is queried based on the selected filter. The compent is designed to unmount when the user's mouse has moved outside of it. *This feature is not well suited to mobile devices and needs to be redone*
+
+### nav
+
+The `nav` component is responsible for the main navigation/component rendering within the app. It holds a special sub-component, `navSearch.js`, which is a search bar that is built right into the component itself. There is no submit button for the search bar. Instead, the component waits a few seconds after the user's final keystroke before sending the input to the backend to query the database. 
+
+### pubs
+
+`pbs` handles all visualization of publications within the app: from the grid on the homepage and the search/browse results to each individual publication page and the `PubStar` components that allow a user to favorite a publication when logged in. 
+
+### user
+
+The `user` component and its subcomponents are structured very similarly to `pubs` because components related to the user occupy similar space within the app as the components that handle publications. 
+
+### userForm
+
+This component handles user login and signup using Redux Form. A succesful login stores the user's plain id in the browser's localStorage, so it's absolutely not secure! 
 
 
-## Available Scripts
+## User Accounts
 
-In the project directory, you can run:
+Users do not experience many obstacles regarding sign-up: there are no requirements or validations. After a user has logged in or signs up, they are able to upload profile images, edit bios, favorite publications, and follow other users. When a Publication is rendered, related publications in a section underneath the selected publication. These related publications are dependent on user likes in common by a gem in the backend. User images are stored in a Cloudinary account and handled by the backend. 
 
-### `npm start`
+## Future Development
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Some ideas for features to add in the future:
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Accepting Contributions Through A Form
 
-### `npm test`
+For the sake of regulating what is saved to the database, there is no form available to contribute to the list of publications. Right now, the users are suggested in the `info` page to submit an e-mail to a given address with information regarding a publication that should be included. I'd like to create a modal form that generates an e-mail that I can approve from my inbox so that people can submit new publications more quickly. 
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Including Recent Article Headlines from Publications
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# FinalProjectFrontend
+Publication pages should dynamically update to include recent or all article titles from each publication's page, perhaps through a scraping mechanism. Users should also be able to save these as favorites. 
