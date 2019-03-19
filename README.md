@@ -24,7 +24,7 @@ To get started with Trello, fork this repository and clone it to your hard drive
 
 The top-level folder of Trello includes a `public` folder, which holds the `index.html` file where the app is officially rendered by React, an `src` folder which holds the application itself, a `design` folder which holds [Semantic UI's](https://github.com/Semantic-Org/Semantic-UI-React) functionality, and then a few other files: .gitignore, README, and package.json. 
 
-The `src` folder includes five main folders: `redux`, handles the Redux logic responsible for the app's state management, `containers`, which organizes the top-level components which display lower-level components,  `components`, which organizes the bulk of the app's logic and content which needs to be rendered in their specific containers, `forms`, which organizes the different types of form components used in the app, `index.js` handles how the app is mounted into the `index.html` file in the top-level folder. 
+The `src` folder includes five main folders: `redux`, handles the Redux logic responsible for the app's state management, `containers`, which organizes the top-level components which display lower-level components,  `components`, which organizes the bulk of the app's logic and content which needs to be rendered in their specific containers, `forms`, which organizes the form logic and information which will be submitted to the backend of the app, `index.js` handles how the app is mounted into the `index.html` file in the top-level folder. 
 
 ## Containers
 My app is composed of 4 main container components with several lower-leveled components attached to them: 
