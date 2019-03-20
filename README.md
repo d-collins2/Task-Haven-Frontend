@@ -50,5 +50,9 @@ This container is responsible for displaying the user associated boards, teams a
 User authentication is done through a token which is created upon sign up and will be checked upon login. You can learn more about this process and how it is structured [here](https://github.com/d-collins2/Trello-Backend) in the back-end repository. 
 Upon verification a user is allowed to create a team, see their current boards, utilize any board they're apart of and make changes to those boards. 
 
+## Future Developments 
 
+### Instant Notification of Changes To A Board 
+
+At the moment, any changes to the board are shown in the activites section on the side nav in each board. These change are only seen on refresh. I'd like to add action cables to allow for each user apart of a team to know when changes occur on any board they are apart of. 
 
