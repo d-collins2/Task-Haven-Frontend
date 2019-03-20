@@ -13,7 +13,7 @@ This React web app was deisgned to be the responsive front-end for my final proj
 
 ## Libraries & Middleware
 
-Trello was built using [create-react-app](https://github.com/facebook/create-react-app) and comes with the dependencies therein. [Redux](https://github.com/reduxjs/redux) is used for state management, and the file structure is arranged accordingly; see below. [React Materialize](https://github.com/react-materialize/react-materialize) manages the display. [Semantic UI](https://github.com/Semantic-Org/Semantic-UI-React) is used to help with functionality when organizing your own boards. [React Router](https://github.com/ReactTraining/react-router) handles component rendering and navigation based on the URL/browse history.
+Trello was built using [create-react-app](https://github.com/facebook/create-react-app) and comes with the dependencies therein. [Redux](https://github.com/reduxjs/redux) is used for state management, and the file structure is arranged accordingly; see below. [React Materialize](https://github.com/react-materialize/react-materialize) manages a big chunk of the display. [Semantic UI](https://github.com/Semantic-Org/Semantic-UI-React) is used to help with functionality when organizing your own boards. [React Router](https://github.com/ReactTraining/react-router) handles component rendering and navigation based on the URL/browse history.
 
 ## Installation 
 
