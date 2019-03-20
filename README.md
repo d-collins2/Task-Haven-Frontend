@@ -45,6 +45,10 @@ This container is responsible for displaying the teams associated boards, team m
 
 This container is responsible for displaying the user associated boards, teams and a settings tab. The boards tab containes the `BoardContainer.js`, which is responsible for rendering boards associated with the current user being displayed.
 
+## User Accounts 
+
+User authentication is done through a token which is created upon sign up and will be checked upon login. You can learn more about this process and how it is structured [here](https://github.com/d-collins2/Trello-Backend) in the back-end repository. 
+Upon verification a user is allowed to create a team, see their current boards, utilize any board they're apart of and make changes to those boards. 
 
 
 
