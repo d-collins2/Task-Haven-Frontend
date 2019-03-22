@@ -1,4 +1,4 @@
-## Task Haven Clone - Front End
+## Task Haven - Front End
 
 This React web app was deisgned to be the responsive front-end for my final project at Flatiron School. It is designed to be my take on the popular web based list making application, Trello, which gives you a visual representation of a project you are working on. 
 
