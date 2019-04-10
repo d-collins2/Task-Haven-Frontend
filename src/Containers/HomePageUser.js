@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction} from '../redux/actions.js'
 import { Row, Col } from 'react-materialize'
 import BoardContainer from './BoardContainer.js'
-import RightToolBar from '../Components/RightToolBar.js'
+import RightToolBar from '../components/RightToolBar.js'
 
 class HomePageUser extends React.Component {
   cardInfo = () => {
@@ -13,8 +13,7 @@ class HomePageUser extends React.Component {
   render(){
     const {currentUser} = this.props
     return (
-    <>
-
+    <div>
       <Row>
         <Col  s={3} >
           <RightToolBar currentUser={currentUser}/>
@@ -23,7 +22,7 @@ class HomePageUser extends React.Component {
           <BoardContainer />
         </Col>
       </Row>
-    </>
+    </div>
     )
   }
 }

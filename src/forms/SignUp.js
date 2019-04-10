@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction } from '../redux/actions.js'
 import { Button } from 'semantic-ui-react'
 
+
 class SignUp extends React.Component{
   constructor(props){
     super(props)
@@ -62,8 +63,8 @@ class SignUp extends React.Component{
 
   signUpForm(){
   return(
-    <Card className='Center'>
-      <form onSubmit={this.handleLogin}>
+    <Card className='Center signup'>
+      <form header="Sign Up" onSubmit={this.handleLogin}>
         <label>First Name</label>
         <input onChange={this.handleChange} name="first_name" placeholder='first_name' />
         <label>Last Name</label>
@@ -93,12 +94,14 @@ class SignUp extends React.Component{
   render(){
     console.log(this.state, this.props);
     return (
+      <div className="">
       <Row>
-        <Col s={5}></Col>
-        <Col s={4}>
+        <Col s={3}></Col>
+        <Col s={6}>
           {this.signUpForm()}
         </Col>
       </Row>
+    </div>
     )
   }
 }

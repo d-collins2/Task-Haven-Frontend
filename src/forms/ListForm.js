@@ -1,7 +1,9 @@
 import React from 'react';
-import {  Modal, Card } from 'react-materialize'
+import { Collapsible, CollapsibleItem } from 'react-materialize'
 import { connect } from "react-redux"
 import { Button } from 'semantic-ui-react'
+import { updateCurrentUserAction } from '../redux/actions.js'
+
 class List extends React.Component{
   constructor(props){
     super(props)
@@ -16,10 +18,6 @@ class List extends React.Component{
     })
   }
 
-  forceUpdate = () => {
-    this.forceUpdate()
-  }
-
   handleList = (event) => {
     event.preventDefault()
     return (
@@ -30,27 +28,35 @@ class List extends React.Component{
         Accept: 'application/json'
       },
       body: JSON.stringify({
-         name: this.state.name,
-         board_id: this.props.id
+        name: this.state.name,
+        board_id: this.props.id,
+        topic: `New List Alert by ${this.props.currentUser.full_name}`,
+        user_id: this.props.currentUser.id
       })
     })
+    .then(fetch('http://localhost:3000/api/v1/current_user/', {
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      }
+    })
     .then(res => res.json())
-    .then(window.location.reload())
+    .then(response => {
+      this.props.updateCurrentUserAction(response)
+    })
     )
-  }
+  )}
 
   render(){
     return (
-      <Modal
-        header='List Form'
-        bottomSheet
-        trigger={<Card className="opacity grey ligthen-3">New List</Card>}>
+      <Collapsible popout>
+        <CollapsibleItem header='New List' className="Center" icon='add'>
           <form  onSubmit={this.handleList} modal='close'>
             <label>Name</label>
             <input onChange={this.handleChange} name="name" placeholder='name' />
-            <Button modal='close' className="blue lighten-2">Submit</Button>
+            <Button className="blue lighten-2">Submit</Button>
           </form>
-      </Modal>
+        </CollapsibleItem>
+      </Collapsible>
     )
   }
 }
@@ -61,4 +67,4 @@ function msp(state){
   }
 }
 
-export default connect(msp)(List)
+export default connect(msp, {updateCurrentUserAction})(List)

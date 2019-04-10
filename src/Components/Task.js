@@ -1,31 +1,66 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Card, Modal, Button, Row, Col, Collection, CollectionItem, Input, Icon } from 'react-materialize'
+import { Card, Button, Row, Col, Collection, CollectionItem, Input, Icon } from 'react-materialize'
 import MoveOver from './MoveOver.js'
+import { connect } from 'react-redux'
+import { updateCurrentUserAction } from '../redux/actions.js'
+import Modal from '../style/Modal.js'
 
-class Task  extends React.Component<TaskProps & TaskCollectedProps> {
+class Task  extends React.Component {
   state = {
     name: '',
     due_date: '',
-    description: ''
+    description: '',
+    labels: '',
+    show: false
   }
 
+  showModal = () => {
+    const { task } = this.props
+    this.setState({
+      show: true,
+      name: task.name,
+      due_date: task.due_date,
+      description: task.description,
+      labels: task.labels
+    });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
+
   handleSubmit = () => {
-    fetch(`http://localhost:3000/api/v1/tasks/${this.props.task.id}`, {
+    const { task, currentUser, board } = this.props
+    const { name, due_date, description, labels } = this.state
+
+    fetch(`http://localhost:3000/api/v1/tasks/${task.id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json'
     },
     body: JSON.stringify({
-      name: this.state.name,
-      due_date: this.state.date,
-      description: this.state.description
+      name: name,
+      due_date: due_date,
+      description: description,
+      topic: `Task Updated by ${currentUser.full_name}`,
+      user_id: currentUser.id,
+      board_id: board.id,
+      labels: labels
     })
   })
+    .then(fetch('http://localhost:3000/api/v1/current_user/', {
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      }
+    })
     .then(res => res.json())
-    .then(window.location.reload())
-  }
+    .then(response => {
+      this.props.updateCurrentUserAction(response)
+      this.hideModal()
+    })
+  )}
 
   handleChange = (event) => {
     this.setState({
@@ -35,8 +70,17 @@ class Task  extends React.Component<TaskProps & TaskCollectedProps> {
 
   handleDelete = () => {
     fetch(`http://localhost:3000/api/v1/tasks/${this.props.task.id}`, { method: 'DELETE' })
-    .then(window.location.reload())
-  }
+    .then(fetch('http://localhost:3000/api/v1/current_user/', {
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      }
+    })
+    .then(res => res.json())
+    .then(response => {
+      this.props.updateCurrentUserAction(response)
+      this.hideModal()
+    })
+  )}
 
   labels = () => {
     switch(this.props.task.labels) {
@@ -56,9 +100,9 @@ class Task  extends React.Component<TaskProps & TaskCollectedProps> {
   }
 
   taskInfo = () => {
-    const { task } = this.props
+    const { task, start } = this.props
     return (
-      <div className="grey lighten-4">
+      <div className="grey lighten-4" draggable onClick={this.showModal} onDragStart={(event) => start(event, task)}>
         <Card>
           { task.name }
           {task.labels ? this.labels() : null}
@@ -67,46 +111,60 @@ class Task  extends React.Component<TaskProps & TaskCollectedProps> {
     )
   }
 
+  handleCheckBoxChange = (event) => {
+    this.setState({
+      labels: event.target.value
+    })
+  }
+
   modalInfo = () => {
     const { handleChange, handleSubmit, handleDelete } = this
-    const { task, board } = this.props
-    // eslint-disable-next-line
-    const filtered = () => board ? board.lists.filter(list => list.id != task.list_id) : null
-
+    const { task, board, currentUser } = this.props
+      // eslint-disable-next-line
+    const filtered = () => currentUser && currentUser.teams_info[board.team_id].lists[board.id].filter(list => list.id != task.list_id)
     return (
-      <Modal className='modal-close' trigger={ this.taskInfo() }>
+      <>
+      { this.taskInfo() }
+      <Modal className='Center' show={this.state.show} handleClose={this.hideModal}>
+        <div>
           <Row>
-            <Col s={2} m={8}>
-              <Row >
-                <Input onChange={ handleChange } s={6} label='Name of Team' name="name" placeholder={task.name} />
-                <Input s={6} label='Due Date' name='due_date' type='date' onChange={ handleChange} placeholder={task.due_date}/>
-                <Input onChange={ handleChange } s ={12} label='description' type="textarea" name="description" placeholder={task.description}  />
-                  <Row>
-                    <Col s={3}></Col>
-                    <Col s={3} m={8}>
-                      <Input name='group1' type='checkbox' value='red' label='Red' className='filled-in' />
-                      <Input name='group1' type='checkbox' value='yellow' label='Yellow' className='filled-in'/>
-                      <Input name='group1' type='checkbox' value='green' label='Green' className='filled-in'  />
-                      <Input name='group1' type='checkbox' value='blue' label='Blue' className='filled-in' />
-                    </Col>
-                  </Row>
-                <Button onClick={ handleSubmit } className="blue lighten-2">Submit</Button>
-              </Row>
-            </Col>
-            <Col s={3} m={3}>
-              <Card className="z-depth-1" >
-                <Collection defaultValue="1">
-                  {filtered() && filtered().map(list => {
-                    return  <CollectionItem key={ list.id }><MoveOver task={ task } id={ list.id } list={ list }/></CollectionItem>
-                  })}
-                </Collection>
-                <Button onClick={ handleDelete } className="red"><Icon large>delete</Icon><br/></Button>
-              </Card>
-            </Col>
-          </Row>
-      </Modal>)}
+              <Col s={2} m={8}>
+                <Row >
+                  <Input onChange={ handleChange } s={6} label='Name of Team' name="name" placeholder={task.name} />
+                  <Input s={6} label='Due Date' name='due_date' type='date' onChange={ handleChange} placeholder={task.due_date}/>
+                  <Input onChange={ handleChange } s ={12} label='description' type="textarea" name="description" placeholder={task.description}  />
+                  <label className='Center'>Labels</label>
+                    <Row>
+                      <Col s={3}></Col>
+                      <Col s={3} m={8}>
+                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='red' label={<i className="material-icons red600 left">fiber_manual_record</i> }className='filled-in' />
+                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='blue' label={<i className="material-icons blue600 left">fiber_manual_record</i>} className='filled-in' />
+                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='yellow' label={<i className="material-icons yellow600 left">fiber_manual_record</i>} className='filled-in'/>
+                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='green' label={<i className="material-icons green600 left">fiber_manual_record</i>} className='filled-in'  />
+                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='orange' label={<i className="material-icons orange600 left">fiber_manual_record</i>} className='filled-in' />
+                      </Col>
+                    </Row>
+                  <Button onClick={ handleSubmit } className="blue lighten-2">Submit</Button>
+                </Row>
+              </Col>
+              <Col s={3} m={3}>
+                <Card className="z-depth-1" >
+                  <Collection defaultValue="1">
+                    {filtered() && filtered().map(list => {
+                      return  <CollectionItem key={ list.id }><MoveOver task={ task } id={ list.id } list={ list }/></CollectionItem>
+                    })}
+                  </Collection>
+                  <Button onClick={ handleDelete } className="red"><Icon large>delete</Icon><br/></Button>
+                </Card>
+              </Col>
+            </Row>
+        </div>
+      </Modal>
+      </>)
+    }
 
   render(){
+    console.log(this.state)
     return (
     <div >
       {this.modalInfo()}
@@ -115,4 +173,10 @@ class Task  extends React.Component<TaskProps & TaskCollectedProps> {
   }
 }
 
-export default withRouter((Task))
+function msp (state){
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+export default withRouter(connect(msp, {updateCurrentUserAction})(Task))

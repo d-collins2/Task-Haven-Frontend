@@ -3,31 +3,28 @@ import { Card, Row, Col, Tabs, Tab, Collection, CollectionItem } from 'react-mat
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateUserAction } from '../redux/actions.js'
-import BoardContainer from '../Containers/BoardContainer.js'
-import UserSettings from '../Components/UserSettings.js'
+import BoardContainer from '../containers/BoardContainer.js'
+import UserSettings from '../components/UserSettings.js'
 
 class UserProfile extends React.Component{
 
   profileInfo = () => {
     const { currentUser } = this.props
     return (
-      <>
       <Row className="">
         <Col>
-          {currentUser.img_url ? <img src={currentUser.img_url} alt="random"/> : <img src="https://i.stack.imgur.com/Bzcs0.png" alt="random"/>}
+          <img src="teamwork.png" alt="random"/>
         </Col>
         <Col s={6}>
           <h3 className="">{currentUser.full_name}</h3>
           <p className="">Email: {currentUser.email}</p>
         </Col>
       </Row>
-      </>
     )
   }
 
   render () {
     const { currentUser } = this.props
-    console.log(currentUser);
     return (
       <Card className="">
         <div>

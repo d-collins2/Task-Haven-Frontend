@@ -1,8 +1,10 @@
 import React from 'react';
-import { Card, Row, Col, Button, Input } from 'react-materialize'
+import { Card, Row, Col, Input } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction } from '../redux/actions.js'
+import { Button } from 'semantic-ui-react'
+
 
 class Login extends React.Component{
   constructor(props){
@@ -54,13 +56,16 @@ class Login extends React.Component{
 
   loginForm(){
   return(
-    <Card className="Center">
+    <Card className="Center login" >
       <Row >
         <Input onChange={this.handleChange} s={6} label='Username' name="username" placeholder='Username' />
         <Input onChange={this.handleChange} s={6} label='Password' type="password" name="password" placeholder='Password' />
-        <Button onClick={this.handleLogin} className="blue lighten-2">Submit</Button>
+          <Button.Group>
+            <Button onClick={this.handleLogin} positive>Submit</Button>
+            <Button.Or />
+            <Button className="blue lighten-2" onClick={this.handleClick}>Sign Up</Button>
+          </Button.Group>
       </Row>
-      <Button className="blue lighten-2" onClick={this.handleClick}>SignUp</Button>
     </Card>
   )
 }
@@ -68,12 +73,14 @@ class Login extends React.Component{
 
   render(){
     return (
+      <div className="">
       <Row>
-        <Col s={5}></Col>
+        <Col s={4}></Col>
         <Col s={4}>
           {this.loginForm()}
         </Col>
       </Row>
+    </div>
     )
   }
 }

@@ -9,20 +9,32 @@ class MoveOver extends React.Component {
   }
   handleMoveClick = () => {
     return (
-      fetch(`http://localhost:3000/api/v1/tasks/${this.props.task.id}`, {
-      method: 'PATCH',
+      fetch(`http://localhost:3000/api/v1/move`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
       },
       body: JSON.stringify({
-        list_id: this.props.list.id
+        user_id: this.props.currentUser.id,
+        topic: `Task Updated by ${this.props.currentUser.full_name}`,
+        list_id: this.props.list.id,
+        board_id: this.props.list.board_id,
+        task_id: this.props.task.id
       })
     })
     .then(res => res.json())
-    .then(window.location.reload())
+    .then(fetch('http://localhost:3000/api/v1/current_user/', {
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      }
+    })
+    .then(res => res.json())
+    .then(response => {
+      this.props.updateCurrentUserAction(response)
+    })
     )
-  }
+  )}
 
   render(){
     const { list } = this.props

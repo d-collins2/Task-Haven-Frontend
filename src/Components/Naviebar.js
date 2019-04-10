@@ -1,8 +1,9 @@
 import React from 'react';
-import { Navbar, NavItem, Icon } from 'react-materialize'
+import { Navbar, NavItem } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { logout } from '../redux/actions.js'
+import { Icon } from 'semantic-ui-react'
 
 const Naviebar = ({currentUser, logout, history}) => {
   const handleLogOut = () => {
@@ -12,20 +13,16 @@ const Naviebar = ({currentUser, logout, history}) => {
   }
 
   return (
-    <Navbar brand='FinalPro' className="NavBar" right>
+    <Navbar brand='Task Haven' className="NavBar" right>
       {currentUser && (
         <>
           <NavItem className="disabled" href={null}>
               {currentUser && `Welcome! ${currentUser.full_name}`}
           </NavItem>
-          <NavItem href='/' icon=""><Icon medium>home</Icon></NavItem>
-          <NavItem href='/home' icon="dashboard"><Icon medium>dashboard</Icon></NavItem>
-          <NavItem href='/profile' icon="face"><Icon medium>face</Icon></NavItem>
-          <NavItem
-            href='/login'
-            onClick={() => handleLogOut()}
-          >
-            <Icon medium>keyboard_tab</Icon>
+          <NavItem href='/' ><Icon name='home'/></NavItem>
+          <NavItem href='/profile'><Icon name='user' /></NavItem>
+          <NavItem href='/login' onClick={() => handleLogOut()}>
+            <Icon name="log out"/>
           </NavItem>
         </>
       )}

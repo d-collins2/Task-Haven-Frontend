@@ -1,12 +1,13 @@
 import React from 'react'
 import { Collapsible, CollapsibleItem, Row, Col, Button, Icon } from 'react-materialize'
-import EditUser from "../forms/EditUser.js"
+import { withRouter } from 'react-router'
 
-
-class UserSettings extends React.Component{
+class TeamSettings
+ extends React.Component{
   handleDelete = () => {
-    fetch(`http://localhost:3000/api/v1/user/${this.props.currentUser.id}`, { method: 'DELETE' })
-    this.props.history.push('/signup')
+    fetch(`http://localhost:3000/api/v1/teams/${this.props.match.params.id}`, { method: 'DELETE' })
+    .then( window.location.reload())
+    .then(this.props.history.push('/profile'))
   }
 
   render(){
@@ -15,11 +16,6 @@ class UserSettings extends React.Component{
         <Col s={3}></Col>
         <Col className="Center" s={6}>
           <Collapsible accordion>
-            <CollapsibleItem header='Edit Profiles' icon='edit'>
-              <Row>
-                <EditUser />
-              </Row>
-            </CollapsibleItem>
             <CollapsibleItem header='Delete' icon='delete_forever'>
               <span>"WARNING: This is a permanent deletion."</span><br/><br/>
               <Button onClick={ this.handleDelete } className="red"><Icon large>delete</Icon></Button>
@@ -31,4 +27,4 @@ class UserSettings extends React.Component{
   }
 }
 
-export default UserSettings
+export default withRouter(TeamSettings)
