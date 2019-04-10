@@ -1,69 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Task Haven - Front End
 
-## Available Scripts
+This React web app was deisgned to be the responsive front-end for my final project at Flatiron School. It is designed to be my take on the popular web based list making application, Trello, which gives you a visual representation of a project you are working on. 
 
-In the project directory, you can run:
+Live Demo - [Here](https://www.youtube.com/watch?v=k06zraOeP7A)
 
-### `npm start`
+## Contents
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [Libraries](#libraries)
+- [Installation](#installation)
+- [Structure](#structure)
+- [Containers](#containers)
+- [User Accounts](#user-accounts)
+- [Future Development](#future-development)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Libraries & Middleware
 
-### `npm test`
+Task Haven was built using [create-react-app](https://github.com/facebook/create-react-app) and comes with the dependencies therein. [Redux](https://github.com/reduxjs/redux) is used for state management, and the file structure is arranged accordingly; see below. [React Materialize](https://github.com/react-materialize/react-materialize) manages a big chunk of the display. [Semantic UI](https://github.com/Semantic-Org/Semantic-UI-React) is used to help with functionality when organizing your own boards. [React Router](https://github.com/ReactTraining/react-router) handles component rendering and navigation based on the URL/browse history.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation 
 
-### `npm run build`
+To get started with Task Haven, fork this repository and clone it to your hard drive. CD into the folder and run ```npm install```. Once the dependencies have been installed, you can run ```npm start``` to get your app running. For more information about how the back-end is structured, visit [this](https://github.com/d-collins2/Trello-Backend) repository.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Structure
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+The top-level folder of Task Haven includes a `public` folder, which holds the `index.html` file where the app is officially rendered by React, an `src` folder which holds the application itself, a `design` folder which holds [Semantic UI's](https://github.com/Semantic-Org/Semantic-UI-React) functionality, and then a few other files: .gitignore, README, and package.json. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The `src` folder includes five main folders: `redux`, handles the Redux logic responsible for the app's state management, `containers`, which organizes the top-level components which display lower-level components,  `components`, which organizes the bulk of the app's logic and content which needs to be rendered in their specific containers, `forms`, which organizes the form logic and information which will be submitted to the backend of the app, `index.js` handles how the app is mounted into the `index.html` file in the top-level folder. 
 
-### `npm run eject`
+## Containers
+My app is composed of 4 main container components with several lower-leveled components attached to them: 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### BoardPage 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This container is responsible for the main functionality of the app. It is used to render the many `ListContainer.js` associated with the board chosen. The `ListContainer.js` associated with the board is rendered and shows the corresponding `List.js` components which render its `Task.js` and allow for the drag and drop actions to occcur.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### HomePageUser 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This container is responsible for the homepage which is seen on login. It renders the users associated `BoardContainer.js` and `RightToolBar.js`. The `BoardContainer` is used to render the users boards which are created through the component `board.js`. 
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### TeamPage 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This container is responsible for displaying the teams associated boards, team members and a settings tab. The boards tab containes the `TeamBoardContainer.js`, which is responsible for rendering boards associated with the current team being displayed.
 
-### Code Splitting
+### UserProfile
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+This container is responsible for displaying the user associated boards, teams and a settings tab. The boards tab containes the `BoardContainer.js`, which is responsible for rendering boards associated with the current user being displayed.
 
-### Analyzing the Bundle Size
+## User Accounts 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+User authentication is done through a token which is created upon sign up and will be checked upon login. You can learn more about this process and how it is structured [here](https://github.com/d-collins2/Task-Haven-Backend) in the back-end repository. Upon verification a user is allowed to create a team, see their current boards, utilize any board they're apart of and make changes to those boards. 
 
-### Making a Progressive Web App
+## Future Developments 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### Instant Notification of Changes To A Board 
 
-### Advanced Configuration
+At the moment, any changes to the board are shown in the activites section on the side nav in each board. These change are only seen on refresh. I'd like to add action cables to allow for each user apart of a team to know when changes occur on any board they are apart of. 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# FinalProjectFrontend
