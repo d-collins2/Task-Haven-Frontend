@@ -8,7 +8,7 @@ import { updateCurrentUserAction } from '../redux/actions.js'
 
 class ListContainer extends React.Component {
   state = {
-    dragObject: null
+    dragObject: null,
   }
 
   handleDelete = () => {
@@ -24,7 +24,6 @@ class ListContainer extends React.Component {
     })
     )
   }
-
 
 
   render() {

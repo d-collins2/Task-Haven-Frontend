@@ -60,7 +60,6 @@ class EditUser extends React.Component {
 
   render(){
     const { currentUser } = this.props
-    console.log(this.state);
     return (
       <form>
         <Row>

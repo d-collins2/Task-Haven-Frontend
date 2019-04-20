@@ -43,7 +43,13 @@ class TeamForm extends React.Component{
       window.location.reload()
     })
   )}
-
+//   { possibleMembers && filtered().map(member => {
+//     return (
+//       <Row key={member.id}>
+//         <Input onChange={this.handleCheckBoxChange} name={member.full_name} value={undefined} type='checkbox' label={member.full_name} className='filled-in'  />
+//       </Row>
+//     )
+// })}
   render(){
     console.log(this.props)
     const { currentUser, possibleMembers } = this.props
@@ -54,13 +60,7 @@ class TeamForm extends React.Component{
       <form onSubmit={this.handleTeam}>
           <label>Name</label>
           <input onChange={this.handleChange} name="name" placeholder='name' />
-        { possibleMembers && filtered().map(member => {
-          return (
-            <Row key={member.id}>
-              <Input onChange={this.handleCheckBoxChange} name={member.full_name} value={undefined} type='checkbox' label={member.full_name} className='filled-in'  />
-            </Row>
-          )
-      })}
+
         <Button className="blue lighten-2">Submit</Button>
       </form>
     )

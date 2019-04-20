@@ -48,7 +48,6 @@ render() {
       if (x > y) {return 1}
       return 0;
     })
-
     // eslint-disable-next-line
     const sortedBoards = board.team.boards.filter(boardA => boardA.id != board.id )
     filteredBoards = sortedBoards.sort(function(a,b){
@@ -58,8 +57,7 @@ render() {
       if (x > y) {return 1}
       return 0;
     })
-
-
+  }
 
     handlePushProfile = () => this.props.history.push(`/teams/${board.team_id}`)
 
@@ -86,7 +84,9 @@ render() {
       .then(res => res.json())
       .then(response => updateCurrentUserAction(response))
     )}
-  }
+
+
+
 
   return (
     <Sidebar.Pushable as={Segment} >
@@ -154,7 +154,6 @@ render() {
               </Button.Group>
             </div>
             <Row>
-
               {board && board.lists.map(list => {
                 return (
                   <Col key={list.id} s={3}>
@@ -190,4 +189,4 @@ function msp(state){
   }
 }
 
-export default  withRouter(connect(msp, {updateCurrentUserAction})(BoardPage))
+export default withRouter(connect(msp, {updateCurrentUserAction})(BoardPage))
