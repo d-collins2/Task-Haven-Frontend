@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import  ListForm  from '../FormComponents/ListForm.js'
 import ListContainer from '../Containers/ListContainer.js'
-import BoardNavbar from '../Components/BoardNaviebar.js'
+
 
 class BoardPage extends React.Component{
   state = {
@@ -12,7 +12,7 @@ class BoardPage extends React.Component{
   }
 
   componentDidMount = () => {
-    const id = this.props.location.pathname.split('/')[2]
+    const id = this.props.match.params.id
     fetch(`http://localhost:3000/api/v1/boards/${id}`)
     .then(res => res.json())
     .then(response => {
@@ -25,7 +25,6 @@ class BoardPage extends React.Component{
     console.log(this.props.currentUser)
     return (
       <div>
-        <BoardNavbar />
         <Card className=''>
           <Row>
             {board && board.lists.map(list => {

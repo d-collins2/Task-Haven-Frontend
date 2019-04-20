@@ -31,7 +31,6 @@ class App extends Component {
   }
   BoardPage = () => <BoardPage />
   render(){
-    console.log(this.state)
     return (
       <div>
         <Naviebar />

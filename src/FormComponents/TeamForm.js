@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Row } from 'react-materialize'
 import { connect } from "react-redux"
 import { updateCurrentUserAction } from '../redux/actions.js'
-import { Button, Form } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 
 class TeamForm extends React.Component{
   constructor(props){

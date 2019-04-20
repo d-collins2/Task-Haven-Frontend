@@ -64,7 +64,7 @@ class TeamPage extends React.Component{
                   <Col s={3}></Col>
                   <Col s={6} >
                     <Collection className="z-depth-1">
-                      {currentUser.teams_info[id]["team members"].map(member => {
+                      {currentUser.teams_info[id]["team_members"].map(member => {
                         return (
                           <CollectionItem className="Center" key={member.id}>{member.first_name}</CollectionItem>
                         )
