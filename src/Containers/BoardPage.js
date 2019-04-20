@@ -10,9 +10,21 @@ import { updateCurrentUserAction } from '../redux/actions.js'
 class BoardPage extends React.Component {
   state = {
     activeItem: null,
-    visible: true
+    visible: true,
+    board: null,
+    team: null
   }
 
+  componentDidMount = () => {
+    fetch(`http://localhost:3000/api/v1/boards/${this.props.match.params.id}`)
+    .then(res => res.json())
+    .then(response => {
+      this.setState({
+        board: response,
+        team: response.team
+      })
+    })
+  }
   handleItemClick = name => this.setState({ activeItem: name })
   handleHideClick = () => this.setState({ visible: false })
   handleShowClick = () => this.setState({ visible: true })
@@ -21,31 +33,28 @@ class BoardPage extends React.Component {
   onDragOver = (event, list) => event.preventDefault()
 
 render() {
-  const {  activeItem, visible, dragObject } = this.state
-  const { currentUser, match, updateCurrentUserAction } = this.props
-  let board;
+  const {  activeItem, visible, dragObject, board, team } = this.state
+  const { currentUser, updateCurrentUserAction } = this.props
+
+  let lists;
   let filteredMembers;
   let filteredBoards;
-  let filteredActivities;
   let handlePushProfile;
   let onDrop;
-  let info;
-
-  if(currentUser){
-    // eslint-disable-next-line
-    board = currentUser.boards.find(board => board.id == match.params.id )
-    info = currentUser.teams_info[board.team_id]
-
-    filteredMembers = info.team_members.sort((a,b) => {
+  console.log(board)
+  if(board){
+    filteredMembers = board.team.members_team.sort((a,b) => {
       let x = a.first_name.toLowerCase()
       let y = b.first_name.toLowerCase()
       if (x < y) {return -1}
       if (x > y) {return 1}
       return 0;
     })
+  }
 
+  if(team){
     // eslint-disable-next-line
-    const sortedBoards = info.boards.filter(boardA => boardA.id != board.id )
+    const sortedBoards = team.boards.filter(boardA => boardA.id != board.id )
     filteredBoards = sortedBoards.sort(function(a,b){
       let x = a.name.toLowerCase()
       let y = b.name.toLowerCase()
@@ -53,10 +62,11 @@ render() {
       if (x > y) {return 1}
       return 0;
     })
+  }
 
-    filteredActivities = info.activities[board.id].slice(0,9).sort((a, b) => {
-      return b.id - a.id
-    })
+    // filteredActivities = currentUser.teams_info[board.team_id].activities[board.id].slice(0,9).sort((a, b) => {
+    //   return b.id - a.id
+    // })
 
     handlePushProfile = () => this.props.history.push(`/teams/${board.team_id}`)
 
@@ -83,7 +93,9 @@ render() {
       .then(res => res.json())
       .then(response => updateCurrentUserAction(response))
     )}
-  }
+
+
+
 
   return (
     <Sidebar.Pushable as={Segment} >
@@ -109,7 +121,7 @@ render() {
         <Menu.Item>
           <Menu.Header><Icon name='users' />Team Members</Menu.Header>
           <Menu.Menu>
-            {currentUser && filteredMembers.map(member => {
+            {board && filteredMembers.map(member => {
               return (
                 <Menu.Item
                   key= {member.id}
@@ -123,7 +135,7 @@ render() {
         <Menu.Item>
           <Menu.Header><Icon name='clipboard list' />Team Boards</Menu.Header>
           <Menu.Menu>
-            {currentUser && filteredBoards.map(board => {
+            {board && filteredBoards.map(board => {
               return (
                 <Menu.Item
                   key= {board.id}
@@ -138,15 +150,7 @@ render() {
         <Menu.Item>
           <Menu.Header><Icon name='clipboard list' />Activity</Menu.Header>
           <Menu.Menu>
-            {currentUser && filteredActivities.map(activity => {
-              return (
-                <Menu.Item
-                  key= {activity.id}
-                  name= {activity.topic}
-                  active={activeItem === activity.topic}
-                />
-              )
-            })}
+
           </Menu.Menu>
         </Menu.Item>
       </Sidebar>
@@ -165,8 +169,7 @@ render() {
               </Button.Group>
             </div>
             <Row>
-
-              {currentUser && currentUser.teams_info[board.team_id].lists[board.id].map(list => {
+              {board && board.lists.map(list => {
                 return (
                   <Col key={list.id} s={3}>
                     <Card className=" Center grey lighten-3">
@@ -184,7 +187,7 @@ render() {
               <Col s={3}>
                 {board &&
                   // eslint-disable-next-line
-                  (currentUser.teams_info[board.team_id].lists[board.id].length != 4 ? <ListForm id={board.id}/> : null)}
+                  (board.lists[board.id].length != 4 ? <ListForm id={board.id}/> : null)}
               </Col>
             </Row>
           </div>
@@ -201,4 +204,4 @@ function msp(state){
   }
 }
 
-export default  withRouter(connect(msp, {updateCurrentUserAction})(BoardPage))
+export default withRouter(connect(msp, {updateCurrentUserAction})(BoardPage))

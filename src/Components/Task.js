@@ -101,6 +101,7 @@ class Task  extends React.Component {
 
   taskInfo = () => {
     const { task, start } = this.props
+
     return (
       <div className="grey lighten-4" draggable onClick={this.showModal} onDragStart={(event) => start(event, task)}>
         <Card>
@@ -119,9 +120,10 @@ class Task  extends React.Component {
 
   modalInfo = () => {
     const { handleChange, handleSubmit, handleDelete } = this
-    const { task, board, currentUser } = this.props
+    const { task, board } = this.props
       // eslint-disable-next-line
-    const filtered = () => currentUser && currentUser.teams_info[board.team_id].lists[board.id].filter(list => list.id != task.list_id)
+      console.log(board)
+    const filtered = () => board && board.lists.filter(list => list.id !== task.list_id)
     return (
       <>
       { this.taskInfo() }
@@ -137,11 +139,11 @@ class Task  extends React.Component {
                     <Row>
                       <Col s={3}></Col>
                       <Col s={3} m={8}>
-                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='red' label={<i className="material-icons red600 left">fiber_manual_record</i> }className='filled-in' />
-                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='blue' label={<i className="material-icons blue600 left">fiber_manual_record</i>} className='filled-in' />
-                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='yellow' label={<i className="material-icons yellow600 left">fiber_manual_record</i>} className='filled-in'/>
-                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='green' label={<i className="material-icons green600 left">fiber_manual_record</i>} className='filled-in'  />
-                        <Input onChange={this.handleCheckBoxChange} name='group1' type='checkbox' value='orange' label={<i className="material-icons orange600 left">fiber_manual_record</i>} className='filled-in' />
+                        <Input onChange={this.handleCheckBoxChange}  type='checkbox' value='red' label={<i className="material-icons red600 left">fiber_manual_record</i> }className='filled-in' />
+                        <Input onChange={this.handleCheckBoxChange}  type='checkbox' value='blue' label={<i className="material-icons blue600 left">fiber_manual_record</i>} className='filled-in' />
+                        <Input onChange={this.handleCheckBoxChange}  type='checkbox' value='yellow' label={<i className="material-icons yellow600 left">fiber_manual_record</i>} className='filled-in'/>
+                        <Input onChange={this.handleCheckBoxChange}  type='checkbox' value='green' label={<i className="material-icons green600 left">fiber_manual_record</i>} className='filled-in'  />
+                        <Input onChange={this.handleCheckBoxChange}  type='checkbox' value='orange' label={<i className="material-icons orange600 left">fiber_manual_record</i>} className='filled-in' />
                       </Col>
                     </Row>
                   <Button onClick={ handleSubmit } className="blue lighten-2">Submit</Button>
@@ -164,7 +166,6 @@ class Task  extends React.Component {
     }
 
   render(){
-    console.log(this.state)
     return (
     <div >
       {this.modalInfo()}
