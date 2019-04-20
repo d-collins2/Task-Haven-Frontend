@@ -10,6 +10,7 @@ class ListContainer extends React.Component {
   state = {
     dragObject: null
   }
+
   handleDelete = () => {
     fetch(`http://localhost:3000/api/v1/lists/${this.props.list.id}`, { method: 'DELETE' })
     .then(fetch('http://localhost:3000/api/v1/current_user/', {
@@ -28,14 +29,15 @@ class ListContainer extends React.Component {
 
   render() {
 		const {currentUser, list, board, start, drop, over } = this.props
+
     return (
       <div onDragOver={(e) => over(e, list)} onDrop={(e) => drop(e, list)}>
-        {currentUser &&  currentUser.teams_info[board.team_id].tasks[list.id].map(task => <Task key={task.id} start={start} board={board} task={task}/>)}
+        {board && list.tasks.map(task => <Task key={task.id} start={start} board={board} task={task}/>)}
         <Row>
           <Col s={6}>
             {currentUser &&
               // eslint-disable-next-line
-              (currentUser.teams_info[board.team_id].tasks[list.id].length != 9 ? <TaskForm board={board} list={list}/> : null)}
+              (list.tasks.length != 9 ? <TaskForm board={board} list={list}/> : null)}
           </Col>
           <Col s={6}>
             <Button onClick={ this.handleDelete } className="red"><Icon>delete</Icon></Button>

@@ -10,7 +10,17 @@ import { updateCurrentUserAction } from '../redux/actions.js'
 class BoardPage extends React.Component {
   state = {
     activeItem: null,
-    visible: true
+    visible: true,
+    board: null
+  }
+
+  componentDidMount = () => {
+    const id = this.props.match.params.id
+    fetch(`http://localhost:3000/api/v1/boards/${id}`)
+    .then(res => res.json())
+    .then(response => {
+      this.setState({board: response})
+    })
   }
 
   handleItemClick = name => this.setState({ activeItem: name })
@@ -21,22 +31,17 @@ class BoardPage extends React.Component {
   onDragOver = (event, list) => event.preventDefault()
 
 render() {
-  const {  activeItem, visible, dragObject } = this.state
+  const {  activeItem, visible, dragObject, board } = this.state
   const { currentUser, match, updateCurrentUserAction } = this.props
-  let board;
+
   let filteredMembers;
   let filteredBoards;
-  let filteredActivities;
   let handlePushProfile;
   let onDrop;
-  let info;
 
-  if(currentUser){
-    // eslint-disable-next-line
-    board = currentUser.boards.find(board => board.id == match.params.id )
-    info = currentUser.teams_info[board.team_id]
-
-    filteredMembers = info.team_members.sort((a,b) => {
+  if(currentUser && board){
+    // eslint-disable-next-lin
+    filteredMembers = board.team.members_team.sort((a,b) => {
       let x = a.first_name.toLowerCase()
       let y = b.first_name.toLowerCase()
       if (x < y) {return -1}
@@ -45,7 +50,7 @@ render() {
     })
 
     // eslint-disable-next-line
-    const sortedBoards = info.boards.filter(boardA => boardA.id != board.id )
+    const sortedBoards = board.team.boards.filter(boardA => boardA.id != board.id )
     filteredBoards = sortedBoards.sort(function(a,b){
       let x = a.name.toLowerCase()
       let y = b.name.toLowerCase()
@@ -54,9 +59,7 @@ render() {
       return 0;
     })
 
-    filteredActivities = info.activities[board.id].slice(0,9).sort((a, b) => {
-      return b.id - a.id
-    })
+
 
     handlePushProfile = () => this.props.history.push(`/teams/${board.team_id}`)
 
@@ -109,7 +112,7 @@ render() {
         <Menu.Item>
           <Menu.Header><Icon name='users' />Team Members</Menu.Header>
           <Menu.Menu>
-            {currentUser && filteredMembers.map(member => {
+            {board && filteredMembers.map(member => {
               return (
                 <Menu.Item
                   key= {member.id}
@@ -123,27 +126,13 @@ render() {
         <Menu.Item>
           <Menu.Header><Icon name='clipboard list' />Team Boards</Menu.Header>
           <Menu.Menu>
-            {currentUser && filteredBoards.map(board => {
+            {board && filteredBoards.map(board => {
               return (
                 <Menu.Item
                   key= {board.id}
                   name= {board.name}
                   active={activeItem === board.name}
                   onClick={this.handleItemClick}
-                />
-              )
-            })}
-          </Menu.Menu>
-        </Menu.Item>
-        <Menu.Item>
-          <Menu.Header><Icon name='clipboard list' />Activity</Menu.Header>
-          <Menu.Menu>
-            {currentUser && filteredActivities.map(activity => {
-              return (
-                <Menu.Item
-                  key= {activity.id}
-                  name= {activity.topic}
-                  active={activeItem === activity.topic}
                 />
               )
             })}
@@ -166,7 +155,7 @@ render() {
             </div>
             <Row>
 
-              {currentUser && currentUser.teams_info[board.team_id].lists[board.id].map(list => {
+              {board && board.lists.map(list => {
                 return (
                   <Col key={list.id} s={3}>
                     <Card className=" Center grey lighten-3">
@@ -184,7 +173,7 @@ render() {
               <Col s={3}>
                 {board &&
                   // eslint-disable-next-line
-                  (currentUser.teams_info[board.team_id].lists[board.id].length != 4 ? <ListForm id={board.id}/> : null)}
+                  (board.lists.length != 4 ? <ListForm id={board.id}/> : null)}
               </Col>
             </Row>
           </div>

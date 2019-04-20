@@ -119,9 +119,9 @@ class Task  extends React.Component {
 
   modalInfo = () => {
     const { handleChange, handleSubmit, handleDelete } = this
-    const { task, board, currentUser } = this.props
+    const { task, board } = this.props
       // eslint-disable-next-line
-    const filtered = () => currentUser && currentUser.teams_info[board.team_id].lists[board.id].filter(list => list.id != task.list_id)
+    const filtered = () => board && board.lists.filter(list => list.id != task.list_id)
     return (
       <>
       { this.taskInfo() }
@@ -164,7 +164,6 @@ class Task  extends React.Component {
     }
 
   render(){
-    console.log(this.state)
     return (
     <div >
       {this.modalInfo()}
