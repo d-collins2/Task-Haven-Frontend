@@ -4,39 +4,47 @@ import TaskForm from '../forms/TaskForm.js'
 import Task from '../components/Task.js'
 import { Icon, Row, Col } from 'react-materialize'
 import { Button } from 'semantic-ui-react'
-import { updateCurrentUserAction } from '../redux/actions.js'
+import { updateBoard, updateLists } from '../redux/actions.js'
 
-class ListContainer extends React.Component {
-  state = {
-    dragObject: null,
+class ListContainer extends React.PureComponent {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      dragObject: null,
+      board: this.props.board,
+      list: this.props.list,
+      tasks: this.props.list.tasks
+    }
   }
 
   handleDelete = () => {
+    this.props.deleteList(this.props.list)
     fetch(`http://localhost:3000/api/v1/lists/${this.props.list.id}`, { method: 'DELETE' })
-    .then(fetch('http://localhost:3000/api/v1/current_user/', {
-      headers: {
-        "Authorization": localStorage.getItem("token")
-      }
-    })
-    .then(res => res.json())
-    .then(response => {
-      this.props.updateCurrentUserAction(response)
-    })
-    )
   }
 
+  addTask = (task) => {
+    this.setState({tasks: [...this.state.tasks].concat(task)})
+  }
+
+  updateTask = (task) => {
+
+  }
+
+  deleteTask = (task) => {
+    this.setState({tasks: [...this.state.tasks].filter(t => t !== task)})
+  }
 
   render() {
-		const {currentUser, list, board, start, drop, over } = this.props
-
+		const {currentUser, start, drop, over } = this.props
+    const { list, tasks, board } = this.state
     return (
       <div onDragOver={(e) => over(e, list)} onDrop={(e) => drop(e, list)}>
-        {board && list.tasks.map(task => <Task key={task.id} start={start} board={board} task={task}/>)}
+        {board && tasks.map(task => <Task key={task.id}  start={start} board={board} task={task} list={this.state.list} deleteTask={this.deleteTask}/>)}
         <Row>
           <Col s={6}>
             {currentUser &&
               // eslint-disable-next-line
-              (list.tasks.length != 9 ? <TaskForm board={board} list={list}/> : null)}
+              (tasks.length != 9 ? <TaskForm board={board} list={list} addTask={this.addTask}/> : null)}
           </Col>
           <Col s={6}>
             <Button onClick={ this.handleDelete } className="red"><Icon>delete</Icon></Button>
@@ -50,10 +58,11 @@ class ListContainer extends React.Component {
 function msp(state){
 
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    lists: state.lists
   }
 }
 
 
 
-export default (connect(msp, {updateCurrentUserAction})(ListContainer))
+export default connect(msp, { updateBoard, updateLists})(ListContainer)

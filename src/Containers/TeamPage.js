@@ -32,7 +32,6 @@ class TeamPage extends React.Component{
     const teamid = location.pathname.split('/')[2]
     // eslint-disable-next-line
     const team = currentUser && currentUser.teams.find(team => team.id == teamid)
-    console.log(this.props.currentUser, team, teamid)
     return (
       <Card className="">
         <div>

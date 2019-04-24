@@ -1,7 +1,9 @@
-import { UPDATE_USER, LOGIN, LOGOUT } from './types.js'
+import { UPDATE_USER, LOGIN, LOGOUT, UPDATE_BOARD, UPDATE_LISTS } from './types.js'
 
 const initialState = {
   currentUser: null,
+  board: null,
+  task: null
 };
 
 export default function userReducer(state = initialState, action) {
@@ -12,6 +14,11 @@ export default function userReducer(state = initialState, action) {
       return {...state, currentUser: action.payload}
     case LOGOUT:
       return {...state, currentUser: null}
+    case UPDATE_BOARD:
+      return {...state, board: action.payload}
+    case UPDATE_LISTS:
+      return {...state, lists: action.payload}
+
     // case UPDATE_LIST:
     //   const old = state.currentUser.teams_info[action.board.team_id].tasks[action.oldList].forEach(task =>{
     //     if (task.id == action.task.id){

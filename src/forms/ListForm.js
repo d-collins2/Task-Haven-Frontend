@@ -2,7 +2,7 @@ import React from 'react';
 import { Collapsible, CollapsibleItem } from 'react-materialize'
 import { connect } from "react-redux"
 import { Button } from 'semantic-ui-react'
-import { updateCurrentUserAction } from '../redux/actions.js'
+
 
 class List extends React.Component{
   constructor(props){
@@ -29,28 +29,22 @@ class List extends React.Component{
       },
       body: JSON.stringify({
         name: this.state.name,
-        board_id: this.props.id,
+        board_id: this.props.board.id,
         topic: `New List Alert by ${this.props.currentUser.full_name}`,
         user_id: this.props.currentUser.id
       })
     })
-    .then(fetch('http://localhost:3000/api/v1/current_user/', {
-      headers: {
-        "Authorization": localStorage.getItem("token")
-      }
-    })
     .then(res => res.json())
     .then(response => {
-      this.props.updateCurrentUserAction(response)
-    })
-    )
-  )}
+      this.props.addList(response)
+    }))
+  }
 
   render(){
     return (
       <Collapsible popout>
         <CollapsibleItem header='New List' className="Center" icon='add'>
-          <form  onSubmit={this.handleList} modal='close'>
+          <form  onSubmit={this.handleList}>
             <label>Name</label>
             <input onChange={this.handleChange} name="name" placeholder='name' />
             <Button className="blue lighten-2">Submit</Button>
@@ -67,4 +61,4 @@ function msp(state){
   }
 }
 
-export default connect(msp, {updateCurrentUserAction})(List)
+export default connect(msp)(List)

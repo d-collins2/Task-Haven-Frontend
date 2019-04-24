@@ -6,6 +6,7 @@ import TeamForm from '../forms/TeamForm.js'
 
 class RightToolBar extends React.Component{
   state = {
+    teams: null,
     possibleMembers: null
   }
 
@@ -14,25 +15,23 @@ class RightToolBar extends React.Component{
     .then(res => res.json())
     .then(response => {
       this.setState({
-        possibleMembers: response
+        possibleMembers: response,
+        teams:this.props.currentUser.teams
       })
     })
   }
 
-  handleBoardClick = (currentUser) => {
-    this.props.history.push(`/`)
-  }
+  handleBoardClick = (currentUser) => this.props.history.push(`/`)
+  handleHomeClick = (currentUser) => this.props.history.push(`/home`)
 
-  handleHomeClick = (currentUser) => {
-    this.props.history.push(`/home`)
-  }
+  addTeam = (src) => this.setState({teams: [...this.state.teams].concat(src)})
 
   render(){
-    const { currentUser } = this.props
+    const { teams } = this.state
       return (
         <Card className="Center grey lighten-3 ">
           <Collection className="Center z-depth-1">
-            {currentUser && currentUser.teams.map(team => {
+            {teams && teams.map(team => {
               return (
                 <CollectionItem className="font" key={team.id} href={`/teams/${team.id}`}>{team.name}</CollectionItem>
               )
@@ -40,7 +39,7 @@ class RightToolBar extends React.Component{
           </Collection>
           <Collapsible popout>
             <CollapsibleItem header='Create A Team' icon='group_add'>
-              <TeamForm possibleMembers={this.state.possibleMembers}/>
+              <TeamForm addTeam={this.addTeam} possibleMembers={this.state.possibleMembers}/>
             </CollapsibleItem>
           </Collapsible>
         </Card>

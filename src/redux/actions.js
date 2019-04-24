@@ -1,4 +1,4 @@
-import { UPDATE_USER, LOGIN, TEAM_PAGE, LOGOUT, DELETE_LIST, UPDATE_LIST } from "./types.js"
+import { UPDATE_USER, LOGIN, TEAM_PAGE, LOGOUT, UPDATE_BOARD, UPDATE_LISTS, DELETE_TASK} from "./types.js"
 
 export function updateUserAction(src) {
   return {
@@ -20,9 +20,9 @@ export function logout(){
   }
 }
 
-export function deleteList(src){
+export function deleteTask(src){
   return {
-    type: DELETE_LIST,
+    type: DELETE_TASK,
     payload: src
   }
 }
@@ -34,12 +34,15 @@ export function updateTeamId(src){
   }
 }
 
-export function updateList(newlist, task, oldList, board){
+export function updateBoard(src){
   return {
-    type: UPDATE_LIST,
-    newList: newlist,
-    task: task,
-    oldList: oldList,
-    board: board
+    type: UPDATE_BOARD,
+    payload: src
+  }
+}
+export function updateLists(src){
+  return {
+    type: UPDATE_LISTS,
+    payload: src
   }
 }

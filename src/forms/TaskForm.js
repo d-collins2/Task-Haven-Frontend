@@ -2,7 +2,6 @@ import React from 'react';
 import { Row, Input, Col, Icon } from 'react-materialize'
 import { connect } from "react-redux"
 import { Button } from 'semantic-ui-react'
-import { updateCurrentUserAction } from '../redux/actions.js'
 import Modal from '../style/Modal.js'
 
 class TaskForm extends React.Component{
@@ -13,7 +12,8 @@ class TaskForm extends React.Component{
       description: '',
       due_date: '',
       labels: "",
-      show: false
+      show: false,
+      list: this.props.list
     }
   }
 
@@ -39,6 +39,7 @@ class TaskForm extends React.Component{
   }
 
   handleTask = (event) => {
+
     event.preventDefault()
     return (
       fetch('http://localhost:3000/api/v1/tasks', {
@@ -58,22 +59,15 @@ class TaskForm extends React.Component{
           topic: `New Task Alert by ${this.props.currentUser.full_name}`
         })
       })
-      .then(fetch('http://localhost:3000/api/v1/current_user/', {
-        headers: {
-          "Authorization": localStorage.getItem("token")
-        }
-      })
       .then(res => res.json())
       .then(response => {
-        this.props.updateCurrentUserAction(response)
+        this.props.addTask(response)
         this.hideModal()
-      })
-    ))
+      }))
   }
 
   render(){
     const { handleChange, handleTask, handleCheckBoxChange } = this
-    console.log(this.state.show)
     return (
       <>
         <Button className="opacity font grey ligthen-3" onClick={this.showModal}><Icon >add</Icon></Button>
@@ -100,9 +94,10 @@ class TaskForm extends React.Component{
 }
 
 function msp(state){
+
   return {
     currentUser: state.currentUser
   }
 }
 
-export default connect(msp, {updateCurrentUserAction})(TaskForm)
+export default connect(msp)(TaskForm)

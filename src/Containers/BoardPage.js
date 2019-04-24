@@ -5,13 +5,18 @@ import { Icon, Menu, Segment, Sidebar, Button } from 'semantic-ui-react'
 import { Card , Row, Col} from 'react-materialize'
 import ListForm  from '../forms/ListForm.js'
 import ListContainer from '../containers/ListContainer.js'
-import { updateCurrentUserAction } from '../redux/actions.js'
+import { updateBoard, updateLists } from '../redux/actions.js'
 
 class BoardPage extends React.Component {
-  state = {
-    activeItem: null,
-    visible: true,
-    board: null
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      activeItem: null,
+      visible: true,
+      board: null,
+      lists: null
+    }
   }
 
   componentDidMount = () => {
@@ -19,7 +24,10 @@ class BoardPage extends React.Component {
     fetch(`http://localhost:3000/api/v1/boards/${id}`)
     .then(res => res.json())
     .then(response => {
-      this.setState({board: response})
+      this.setState({
+        board: response,
+        lists: response.lists
+      })
     })
   }
 
@@ -27,12 +35,16 @@ class BoardPage extends React.Component {
   handleHideClick = () => this.setState({ visible: false })
   handleShowClick = () => this.setState({ visible: true })
   handlePushHome = () => this.props.history.push('/home')
+
   onDragStart = (event, task) => this.setState({dragObject: task})
   onDragOver = (event, list) => event.preventDefault()
 
+  addList = (src) => this.setState({lists: [...this.state.lists].concat(src)})
+  deleteList = (src) => this.setState({lists: [...this.state.lists].filter(list => list !== src)})
+
 render() {
-  const {  activeItem, visible, dragObject, board } = this.state
-  const { currentUser, match, updateCurrentUserAction } = this.props
+  const {  activeItem, visible, dragObject, board, lists } = this.state
+  const { currentUser} = this.props
 
   let filteredMembers;
   let filteredBoards;
@@ -76,17 +88,12 @@ render() {
           task_id: dragObject.id
         })
       })
-      .then(fetch('http://localhost:3000/api/v1/current_user/', {
-        headers: {
-          "Authorization": localStorage.getItem("token")
-        }
-      })
+      .then(fetch(`http://localhost:3000/api/v1/boards/${board.id}`)
       .then(res => res.json())
-      .then(response => updateCurrentUserAction(response))
+      .then(response => {
+        this.props.updateBoard(response)
+      })
     )}
-
-
-
 
   return (
     <Sidebar.Pushable as={Segment} >
@@ -154,7 +161,7 @@ render() {
               </Button.Group>
             </div>
             <Row>
-              {board && board.lists.map(list => {
+              {lists && lists.map(list => {
                 return (
                   <Col key={list.id} s={3}>
                     <Card className=" Center grey lighten-3">
@@ -163,16 +170,17 @@ render() {
                         start={this.onDragStart}
                         over={this.onDragOver}
                         drop={onDrop}
-                        board={board}
+                        board={this.state.board}
                         list={list}
+                        deleteList={this.deleteList}
                       />
                     </Card>
                   </Col>
               )})}
               <Col s={3}>
-                {board &&
+                {lists &&
                   // eslint-disable-next-line
-                  (board.lists.length != 4 ? <ListForm id={board.id}/> : null)}
+                  (lists.length < 4 ? <ListForm board={board} addList={this.addList}/> : null)}
               </Col>
             </Row>
           </div>
@@ -185,8 +193,10 @@ render() {
 
 function msp(state){
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    board: state.board,
+    lists: state.lists
   }
 }
 
-export default withRouter(connect(msp, {updateCurrentUserAction})(BoardPage))
+export default withRouter(connect(msp, {updateBoard, updateLists})(BoardPage))

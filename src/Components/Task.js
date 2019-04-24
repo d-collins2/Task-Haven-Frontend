@@ -1,34 +1,25 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import { Card, Button, Row, Col, Collection, CollectionItem, Input, Icon } from 'react-materialize'
 import MoveOver from './MoveOver.js'
 import { connect } from 'react-redux'
-import { updateCurrentUserAction } from '../redux/actions.js'
+import { updateBoard } from '../redux/actions.js'
 import Modal from '../style/Modal.js'
 
 class Task  extends React.Component {
-  state = {
-    name: '',
-    due_date: '',
-    description: '',
-    labels: '',
-    show: false
+  constructor(props, context) {
+    super(props, context);
+    this.state= {
+      task: this.props.task,
+      name: this.props.task.name,
+      due_date: this.props.task.due_date,
+      description: this.props.task.description,
+      labels: this.props.task.labels,
+      show: false
+    }
   }
 
-  showModal = () => {
-    const { task } = this.props
-    this.setState({
-      show: true,
-      name: task.name,
-      due_date: task.due_date,
-      description: task.description,
-      labels: task.labels
-    });
-  };
-
-  hideModal = () => {
-    this.setState({ show: false });
-  };
+  showModal = () => this.setState({ show: true });
+  hideModal = () => this.setState({ show: false });
 
   handleSubmit = () => {
     const { task, currentUser, board } = this.props
@@ -50,17 +41,12 @@ class Task  extends React.Component {
       labels: labels
     })
   })
-    .then(fetch('http://localhost:3000/api/v1/current_user/', {
-      headers: {
-        "Authorization": localStorage.getItem("token")
-      }
-    })
-    .then(res => res.json())
-    .then(response => {
-      this.props.updateCurrentUserAction(response)
-      this.hideModal()
-    })
-  )}
+  .then(fetch(`http://localhost:3000/api/v1/boards/${this.props.board.id}`)
+  .then(res => res.json())
+  .then(response => {
+    this.props.updateBoard(response)
+    this.hideModal()
+  }))}
 
   handleChange = (event) => {
     this.setState({
@@ -69,18 +55,10 @@ class Task  extends React.Component {
   }
 
   handleDelete = () => {
+    this.props.deleteTask(this.props.task)
     fetch(`http://localhost:3000/api/v1/tasks/${this.props.task.id}`, { method: 'DELETE' })
-    .then(fetch('http://localhost:3000/api/v1/current_user/', {
-      headers: {
-        "Authorization": localStorage.getItem("token")
-      }
-    })
-    .then(res => res.json())
-    .then(response => {
-      this.props.updateCurrentUserAction(response)
-      this.hideModal()
-    })
-  )}
+    .then(this.hideModal())
+  }
 
   labels = () => {
     switch(this.props.task.labels) {
@@ -123,6 +101,7 @@ class Task  extends React.Component {
     const { task, board } = this.props
       // eslint-disable-next-line
     const filtered = () => board && board.lists.filter(list => list.id != task.list_id)
+    console.log(board, filtered)
     return (
       <>
       { this.taskInfo() }
@@ -175,8 +154,9 @@ class Task  extends React.Component {
 
 function msp (state){
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    board: state.board
   }
 }
 
-export default withRouter(connect(msp, {updateCurrentUserAction})(Task))
+export default connect(msp, {updateBoard})(Task)
