@@ -6,8 +6,8 @@ class TeamSettings
  extends React.Component{
   handleDelete = () => {
     fetch(`http://localhost:3000/api/v1/teams/${this.props.match.params.id}`, { method: 'DELETE' })
+    .then(this.props.history.push('/home'))
     .then( window.location.reload())
-    .then(this.props.history.push('/profile'))
   }
 
   render(){

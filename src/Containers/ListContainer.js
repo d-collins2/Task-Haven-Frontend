@@ -4,7 +4,6 @@ import TaskForm from '../forms/TaskForm.js'
 import Task from '../components/Task.js'
 import { Icon, Row, Col } from 'react-materialize'
 import { Button } from 'semantic-ui-react'
-import { updateBoard, updateLists } from '../redux/actions.js'
 
 class ListContainer extends React.PureComponent {
   constructor(props, context) {
@@ -26,8 +25,16 @@ class ListContainer extends React.PureComponent {
     this.setState({tasks: [...this.state.tasks].concat(task)})
   }
 
-  updateTask = (task) => {
-
+  updateTask = (task, response) => {
+    const index =  this.state.tasks.findIndex(t => t.id === task.id)
+    const change = [...this.state.tasks].map((item, i) => {
+      if(i !== index){
+        return item
+      }
+      return {...item, ...response}
+    })
+    console.log(task, index)
+    this.setState({tasks: change})
   }
 
   deleteTask = (task) => {
@@ -39,15 +46,28 @@ class ListContainer extends React.PureComponent {
     const { list, tasks, board } = this.state
     return (
       <div onDragOver={(e) => over(e, list)} onDrop={(e) => drop(e, list)}>
-        {board && tasks.map(task => <Task key={task.id}  start={start} board={board} task={task} list={this.state.list} deleteTask={this.deleteTask}/>)}
+        {board && tasks.map(task => <Task
+          key={task.id}
+          start={start}
+          board={board}
+          task={task}
+          list={this.state.list}
+          updateTask={this.updateTask}
+          deleteTask={this.deleteTask}/>)}
         <Row>
           <Col s={6}>
             {currentUser &&
               // eslint-disable-next-line
-              (tasks.length != 9 ? <TaskForm board={board} list={list} addTask={this.addTask}/> : null)}
+              (tasks.length != 9 ? <TaskForm
+                board={board} list={list}
+                addTask={this.addTask}/> : null)}
           </Col>
           <Col s={6}>
-            <Button onClick={ this.handleDelete } className="red"><Icon>delete</Icon></Button>
+            <Button
+              onClick={ this.handleDelete }
+              className="red">
+              <Icon>delete</Icon>
+            </Button>
           </Col>
         </Row>
       </div>
@@ -65,4 +85,4 @@ function msp(state){
 
 
 
-export default connect(msp, { updateBoard, updateLists})(ListContainer)
+export default connect(msp)(ListContainer)

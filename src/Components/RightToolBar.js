@@ -1,13 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { Card, Collection, CollectionItem, Collapsible, CollapsibleItem } from 'react-materialize'
 import TeamForm from '../forms/TeamForm.js'
 
 class RightToolBar extends React.Component{
-  state = {
-    teams: null,
-    possibleMembers: null
+  constructor(props, context) {
+    super(props, context);
+    this.state= {
+      teams: null,
+      possibleMembers: null
+    }
   }
 
   componentDidMount = () => {
@@ -53,4 +55,4 @@ function msp(state){
   }
 }
 
-export default withRouter(connect(msp)(RightToolBar))
+export default connect(msp)(RightToolBar)

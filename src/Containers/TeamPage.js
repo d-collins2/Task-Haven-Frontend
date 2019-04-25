@@ -6,7 +6,6 @@ import TeamBoardContainer from './TeamBoardContainer.js'
 import TeamSettings from '../components/TeamSettings.js'
 
 class TeamPage extends React.Component{
-
   team_info = () => {
     const { currentUser, location} = this.props
     const id = location.pathname.split('/')[2]

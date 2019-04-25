@@ -24,7 +24,7 @@ class Task  extends React.Component {
   handleSubmit = () => {
     const { task, currentUser, board } = this.props
     const { name, due_date, description, labels } = this.state
-
+    const temp = task
     fetch(`http://localhost:3000/api/v1/tasks/${task.id}`, {
     method: 'PATCH',
     headers: {
@@ -41,12 +41,11 @@ class Task  extends React.Component {
       labels: labels
     })
   })
-  .then(fetch(`http://localhost:3000/api/v1/boards/${this.props.board.id}`)
   .then(res => res.json())
   .then(response => {
-    this.props.updateBoard(response)
+    this.props.updateTask(temp, response)
     this.hideModal()
-  }))}
+  })}
 
   handleChange = (event) => {
     this.setState({
@@ -101,7 +100,6 @@ class Task  extends React.Component {
     const { task, board } = this.props
       // eslint-disable-next-line
     const filtered = () => board && board.lists.filter(list => list.id != task.list_id)
-    console.log(board, filtered)
     return (
       <>
       { this.taskInfo() }
@@ -154,8 +152,7 @@ class Task  extends React.Component {
 
 function msp (state){
   return {
-    currentUser: state.currentUser,
-    board: state.board
+    currentUser: state.currentUser
   }
 }
 

@@ -1,36 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { updateCurrentUserAction} from '../redux/actions.js'
 import { Row, Col } from 'react-materialize'
 import BoardContainer from './BoardContainer.js'
 import RightToolBar from '../components/RightToolBar.js'
 
 class HomePageUser extends React.Component {
-  cardInfo = () => {
-    return <span>{this.props.currentUser.full_name}</span>
-  }
   render(){
-    const {currentUser} = this.props
     return (
-    <div>
+    <>
       <Row>
         <Col  s={3} >
-          <RightToolBar currentUser={currentUser}/>
+          <RightToolBar/>
         </Col>
         <Col s={9} >
           <BoardContainer />
         </Col>
       </Row>
-    </div>
+    </>
     )
   }
 }
 
-function msp (state){
-  return {
-    currentUser: state.currentUser
-  }
-}
-
-export default withRouter(connect(msp, {updateCurrentUserAction})(HomePageUser))
+export default HomePageUser
