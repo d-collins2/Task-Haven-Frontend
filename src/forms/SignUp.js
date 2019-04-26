@@ -1,12 +1,16 @@
 import React from 'react';
-import {Row, Col, Card } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction } from '../redux/actions.js'
 import { Button } from 'semantic-ui-react'
+import {
+  Row,
+  Card,
+  Col
+ } from 'react-materialize'
 
 
-class SignUp extends React.Component{
+class SignUp extends React.PureComponent{
   constructor(props){
     super(props)
     this.state = {
@@ -38,7 +42,7 @@ class SignUp extends React.Component{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json'
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
           user: {
@@ -66,40 +70,58 @@ class SignUp extends React.Component{
     <Card className='Center signup'>
       <form header="Sign Up" onSubmit={this.handleLogin}>
         <label>First Name</label>
-        <input onChange={this.handleChange} name="first_name" placeholder='first_name' />
+        <input
+          onChange={this.handleChange}
+          name="first_name"
+          placeholder='first_name'/>
         <label>Last Name</label>
-        <input onChange={this.handleChange} name="last_name" placeholder='last_name' />
+        <input
+          onChange={this.handleChange}
+          name="last_name"
+          placeholder='last_name'/>
         <label>Email</label>
-        <input onChange={this.handleChange} name="email" placeholder='email' />
+        <input
+          onChange={this.handleChange}
+          name="email"
+          placeholder='email'/>
         <label>Username</label>
-        <input onChange={this.handleChange} name="username" placeholder='Username' />
+        <input
+          onChange={this.handleChange}
+          name="username"
+          placeholder='Username'/>
         <label>Image</label>
-        <input onChange={this.handleChange} name="img_url" placeholder='Image' />
+        <input
+          onChange={this.handleChange}
+          name="img_url"
+          placeholder='Image'/>
         <label>Password</label>
-        <input onChange={this.handleChange} type="password" name="password" placeholder='Password' />
+        <input
+          onChange={this.handleChange}
+          type="password"
+          name="password"
+          placeholder='Password'/>
         <label>Password Confirmation</label>
-        <input onChange={this.handleChange} type="password" name="password_confim" placeholder='Password Confirmation' />
+        <input
+          onChange={this.handleChange}
+          type="password"
+          name="password_confim"
+          placeholder='Password Confirmation'/>
           <Button.Group>
             <Button onClick={this.handleLogin} positive>Submit</Button>
             <Button.Or />
             <Button className="blue lighten-2" onClick={this.handleClick}>Login</Button>
           </Button.Group>
-      </form>
-
-    </Card>
-  )
-}
-
+        </form>
+      </Card>
+    )
+  }
 
   render(){
-    console.log(this.state, this.props);
     return (
-      <div className="">
+      <div>
       <Row>
         <Col s={3}></Col>
-        <Col s={6}>
-          {this.signUpForm()}
-        </Col>
+        <Col s={6}>{ this.signUpForm() }</Col>
       </Row>
     </div>
     )

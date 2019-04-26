@@ -2,9 +2,8 @@ import React from 'react';
 import { Collapsible, CollapsibleItem } from 'react-materialize'
 import { connect } from "react-redux"
 import { Button } from 'semantic-ui-react'
-import { updateCurrentUserAction } from '../redux/actions.js'
 
-class Board extends React.Component{
+class BoardForm extends React.PureComponent{
   constructor(props){
     super(props)
     this.state = {
@@ -30,7 +29,7 @@ class Board extends React.Component{
       body: JSON.stringify({
          name: this.state.name,
          team_id: this.props.id,
-         topic: `New Board Alert by ${this.props.currentUser.full_name}`,
+         topic: `New Board Alert by ${ this.props.currentUser.full_name }`,
          user_id: this.props.currentUser.id
       })
     })
@@ -59,4 +58,4 @@ function msp(state){
   }
 }
 
-export default connect(msp, {updateCurrentUserAction})(Board)
+export default connect(msp)(BoardForm)

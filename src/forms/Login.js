@@ -1,12 +1,16 @@
 import React from 'react';
-import { Card, Row, Col, Input } from 'react-materialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateCurrentUserAction } from '../redux/actions.js'
 import { Button } from 'semantic-ui-react'
+import {
+  Card,
+  Col,
+  Row,
+  Input } from 'react-materialize'
 
 
-class Login extends React.Component{
+class Login extends React.PureComponent{
   constructor(props){
     super(props)
     this.state = {
@@ -33,7 +37,7 @@ class Login extends React.Component{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json'
+        'Accept': 'application/json'
       },
       body: JSON.stringify({
         user: {
@@ -56,49 +60,50 @@ class Login extends React.Component{
 
   loginForm(){
   return(
-    <Card className="Center login" >
-      <Row >
-        <Input onChange={this.handleChange} s={6} label='Username' name="username" placeholder='Username' />
-        <Input onChange={this.handleChange} s={6} label='Password' type="password" name="password" placeholder='Password' />
+      <Card className="Center login" >
+        <Row >
+          <Input
+            onChange={this.handleChange}
+            s={6}
+            label='Username'
+            type='name'
+            name='username'
+            placeholder='Username' />
+          <Input
+            onChange={this.handleChange}
+            s={6}
+            label='Password'
+            type='password'
+            name='password'
+            placeholder='Password' />
           <Button.Group>
             <Button onClick={this.handleLogin} positive>Submit</Button>
             <Button.Or />
             <Button className="blue lighten-2" onClick={this.handleClick}>Sign Up</Button>
           </Button.Group>
-      </Row>
-    </Card>
-  )
-}
-
+        </Row>
+      </Card>
+    )
+  }
 
   render(){
     return (
       <div className="">
-      <Row>
-        <Col s={4}></Col>
-        <Col s={4}>
-          {this.loginForm()}
-        </Col>
-      </Row>
-    </div>
+        <Row>
+          <Col s={4}></Col>
+          <Col s={4}>
+            {this.loginForm()}
+          </Col>
+        </Row>
+      </div>
     )
   }
 }
 
-
 function msp (state){
   return{
-    currentUser: state.currentUser,
-    signUp: state.signUp
+    currentUser: state.currentUser
   }
 }
 
-function mdp(dispatch){
-  return {
-    currentUserUpdate: (src) => dispatch(updateCurrentUserAction(src))
-  }
-}
-
-
-
-export default withRouter(connect(msp, mdp)(Login))
+export default withRouter(connect(msp, {updateCurrentUserAction})(Login))

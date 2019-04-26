@@ -1,9 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, Collection, CollectionItem, Collapsible, CollapsibleItem } from 'react-materialize'
 import TeamForm from '../forms/TeamForm.js'
+import {
+  Card,
+  Collapsible,
+  CollapsibleItem,
+  Collection,
+  CollectionItem  } from 'react-materialize'
 
-class RightToolBar extends React.Component{
+class RightToolBar extends React.PureComponent{
   constructor(props, context) {
     super(props, context);
     this.state= {
@@ -15,9 +20,9 @@ class RightToolBar extends React.Component{
   componentDidMount = () => {
     fetch('http://localhost:3000/api/v1/users')
     .then(res => res.json())
-    .then(response => {
+    .then(users => {
       this.setState({
-        possibleMembers: response,
+        possibleMembers: users,
         teams:this.props.currentUser.teams
       })
     })
@@ -35,13 +40,20 @@ class RightToolBar extends React.Component{
           <Collection className="Center z-depth-1">
             {teams && teams.map(team => {
               return (
-                <CollectionItem className="font" key={team.id} href={`/teams/${team.id}`}>{team.name}</CollectionItem>
+                <CollectionItem
+                  className="font"
+                  key={team.id}
+                  href={`/teams/${team.id}`}>
+                  {team.name}
+                </CollectionItem>
               )
             })}
           </Collection>
           <Collapsible popout>
             <CollapsibleItem header='Create A Team' icon='group_add'>
-              <TeamForm addTeam={this.addTeam} possibleMembers={this.state.possibleMembers}/>
+              <TeamForm
+                addTeam={this.addTeam}
+                possibleMembers={this.state.possibleMembers}/>
             </CollapsibleItem>
           </Collapsible>
         </Card>

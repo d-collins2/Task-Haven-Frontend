@@ -1,14 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-class MoveOver extends React.Component {
-  state={
-    list: null,
-    key: null
+const MoveOver = ({ task, tasks, list }) => {
+  function removeItem(array, index) {
+    let newArray = array.slice()
+    newArray.splice(index, 1)
+    return newArray
   }
-  handleMoveClick = () => {
-    const {task, list} = this.props
-    const oldList = task.list_id
+
+  const handleMoveClick = () => {
+    console.log(tasks)
+    const index = tasks.forEach((t, i) => {
+      console.log(i)
+      // eslint-disable-next-line
+      return t.id == task.id ? i : null
+    })
+    console.log("old", tasks, index)
+
     return (
       fetch(`http://localhost:3000/api/v1/move`, {
       method: 'PATCH',
@@ -23,17 +31,18 @@ class MoveOver extends React.Component {
     })
     .then(res => res.json())
     .then(response => {
-      console.log(response)
+      console.log(response.list.tasks)
     })
   )}
 
-  render(){
-    const { list } = this.props
-    return (
-    <div key={this.state.key} onClick={()=>{this.handleMoveClick()}}>{list.name}</div>
-    )
-  }
+  return (
+  <div
+    onClick={ () => { handleMoveClick() } }>
+    { list.name }
+  </div>
+  )
 }
+
 function msp(state){
   return{
     currentUser: state.currentUser

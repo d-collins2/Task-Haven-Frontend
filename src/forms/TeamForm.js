@@ -1,10 +1,10 @@
 import React from 'react';
-import { Input, Row } from 'react-materialize'
 import { connect } from "react-redux"
 import { updateCurrentUserAction } from '../redux/actions.js'
 import { Button } from 'semantic-ui-react'
+import { Input, Row } from 'react-materialize'
 
-class TeamForm extends React.Component{
+class TeamForm extends React.PureComponent{
   state = {
     name: '',
     teamMembers: []
@@ -30,7 +30,7 @@ class TeamForm extends React.Component{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json'
+        'Accept': 'application/json'
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -40,7 +40,7 @@ class TeamForm extends React.Component{
     })
     .then(res => res.json())
     .then(team => {
-      this.setState({teamMembers: []})
+      this.setState({ teamMembers: [] })
       this.props.addTeam(team)
     })
   )}
@@ -48,19 +48,27 @@ class TeamForm extends React.Component{
   render(){
     const { currentUser, possibleMembers } = this.props
     const filtered = () => {
-      return currentUser && possibleMembers.filter(member => member.id !== currentUser.id)
+      if (currentUser) {
+        return possibleMembers.filter(member => member.id !== currentUser.id)
+      }
     }
     return (
-      <form onSubmit={this.handleTeam}>
+      <form onSubmit= {this.handleTeam }>
           <label>Name</label>
-          <input onChange={this.handleChange} name="name" placeholder='name' />
+          <input onChange={ this.handleChange } name="name" placeholder='name'/>
             { possibleMembers && filtered().map(member => {
               return (
-                <Row key={member.id}>
-                  <Input onChange={this.handleCheckBoxChange} name={member.full_name} value={undefined} type='checkbox' label={member.full_name} className='filled-in'  />
+                <Row key={ member.id }>
+                  <Input
+                    onChange={ this.handleCheckBoxChange }
+                    name={ member.full_name }
+                    type='checkbox'
+                    label={ member.full_name }
+                    className='filled-in'/>
                 </Row>
               )
-          })}
+            }
+          )}
         <Button className="blue lighten-2">Submit</Button>
       </form>
     )

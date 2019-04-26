@@ -1,8 +1,11 @@
 import React from 'react'
-import { Card, Button, Icon } from 'react-materialize'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updateCurrentUserAction } from '../redux/actions.js'
+import {
+  Card,
+  Button,
+  Icon } from 'react-materialize'
 
 
 const Board = ({history, board, currentUser, updateCurrentUserAction}) => {
@@ -18,8 +21,8 @@ const Board = ({history, board, currentUser, updateCurrentUserAction}) => {
       }
     })
     .then(res => res.json())
-    .then(response => {
-      updateCurrentUserAction(response)
+    .then(user => {
+      updateCurrentUserAction(user)
     })
   )}
 

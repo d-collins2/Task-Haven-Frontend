@@ -1,10 +1,10 @@
 import React from 'react';
-import { Collapsible, CollapsibleItem } from 'react-materialize'
 import { connect } from "react-redux"
 import { Button } from 'semantic-ui-react'
+import { Collapsible, CollapsibleItem } from 'react-materialize'
 
 
-class List extends React.Component{
+class ListForm extends React.PureComponent{
   constructor(props){
     super(props)
     this.state = {
@@ -30,7 +30,7 @@ class List extends React.Component{
       body: JSON.stringify({
         name: this.state.name,
         board_id: this.props.board.id,
-        topic: `New List Alert by ${this.props.currentUser.full_name}`,
+        topic: `New List Alert by ${ this.props.currentUser.full_name }`,
         user_id: this.props.currentUser.id
       })
     })
@@ -44,9 +44,9 @@ class List extends React.Component{
     return (
       <Collapsible popout>
         <CollapsibleItem header='New List' className="Center" icon='add'>
-          <form  onSubmit={this.handleList}>
+          <form  onSubmit={ this.handleList }>
             <label>Name</label>
-            <input onChange={this.handleChange} name="name" placeholder='name' />
+            <input onChange={ this.handleChange } name="name" placeholder='name'/>
             <Button className="blue lighten-2">Submit</Button>
           </form>
         </CollapsibleItem>
@@ -61,4 +61,4 @@ function msp(state){
   }
 }
 
-export default connect(msp)(List)
+export default connect(msp)(ListForm)

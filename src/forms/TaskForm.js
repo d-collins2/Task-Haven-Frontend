@@ -1,10 +1,14 @@
 import React from 'react';
-import { Row, Input, Col, Icon } from 'react-materialize'
 import { connect } from "react-redux"
 import { Button } from 'semantic-ui-react'
 import Modal from '../style/Modal.js'
+import {
+  Col,
+  Icon,
+  Input,
+  Row  } from 'react-materialize'
 
-class TaskForm extends React.Component{
+class TaskForm extends React.PureComponent{
   constructor(props){
     super(props)
     this.state = {
@@ -67,26 +71,73 @@ class TaskForm extends React.Component{
   }
 
   render(){
-    const { handleChange, handleTask, handleCheckBoxChange } = this
     return (
       <>
-        <Button className="opacity font grey ligthen-3" onClick={this.showModal}><Icon >add</Icon></Button>
-        <Modal show={this.state.show} handleClose={this.hideModal}>
+        <Button
+          className="opacity font grey ligthen-3"
+          onClick={ this.showModal }>
+          <Icon >add</Icon>
+        </Button>
+        <Modal show={ this.state.show } handleClose={ this.hideModal }>
           <Row >
-            <Input onChange={ handleChange } s={6} label='Name of Task' name="name"  />
-                 <Input s={6} label='Due Date' name='due_date' type='date' onChange={ handleChange } />
-                 <Input onChange={ handleChange } s ={12} label='description' name="description"  />
-                 <Row>
-                     <Col s={3}></Col>
-                     <Col s={3} m={8}>
-                       <Input onChange={ handleCheckBoxChange } name='group1' type='checkbox' value='red' label='Red' className='filled-in' />
-                       <Input onChange={ handleCheckBoxChange } name='group1' type='checkbox' value='yellow' label='Yellow' className='filled-in'/>
-                     <Input onChange={ handleCheckBoxChange } name='group1' type='checkbox' value='green' label='Green' className='filled-in'  />
-                       <Input onChange={ handleCheckBoxChange } name='group1' type='checkbox' value='blue' label='Blue' className='filled-in' />
-                     </Col>
-                   </Row>
-                 <Button onClick={ handleTask } className="blue lighten-2">Submit</Button>
-               </Row>
+            <Input
+              onChange={ this.handleChange }
+              s={6}
+              label='Name of Task'
+              name="name"
+            />
+            <Input
+              s={6}
+              label='Due Date'
+              name='due_date'
+              type='date'
+              onChange={ this.handleChange }
+              />
+            <Input
+              onChange={ this.handleChange }
+              s={12}
+              label='description'
+              name="description"
+              />
+            <Row>
+                <Col s={3}></Col>
+                <Col s={3} m={8}>
+                  <Input
+                    onChange={ this.handleCheckBoxChange }
+                    name='group1'
+                    type='checkbox'
+                    value='red'
+                    label='Red'
+                    className='filled-in'
+                  />
+                  <Input
+                    onChange={ this.handleCheckBoxChange }
+                    name='group1'
+                    type='checkbox'
+                    value='yellow'
+                    label='Yellow'
+                    className='filled-in'
+                  />
+                  <Input
+                    onChange={ this.handleCheckBoxChange }
+                    name='group1'
+                    type='checkbox'
+                    value='green'
+                    label='Green'
+                    className='filled-in'
+                  />
+                  <Input
+                    onChange={ this.handleCheckBoxChange }
+                    name='group1'
+                    type='checkbox'
+                    value='blue'
+                    label='Blue'
+                    className='filled-in'
+                  />
+                </Col>
+              </Row>
+            <Button onClick={ this.handleTask } className="blue lighten-2">Submit</Button>
+          </Row>
         </Modal>
       </>
     )
