@@ -16,7 +16,7 @@ class EditUser extends React.PureComponent {
 
   componentDidMount(){
     if(this.props.currentUser){
-      const {currentUser} = this.props
+      const { currentUser } = this.props
       this.setState({
         first_name: currentUser.first_name,
         last_name: currentUser.last_name,

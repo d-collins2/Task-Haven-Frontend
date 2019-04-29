@@ -14,11 +14,13 @@ import {
 
 const TeamPage = ({ currentUser, match }) => {
   // eslint-disable-next-line
-  const team = currentUser && currentUser.teams.find(team => team.id == id)
   const id = match.params.id
+  let team;
 
-  const profile = (team) => {
+  const profile = () => {
     if(currentUser){
+      // eslint-disable-next-line
+      team = [...currentUser.teams].find(team => team.id == id)
       return (
         <Row>
           <Col>
@@ -28,9 +30,7 @@ const TeamPage = ({ currentUser, match }) => {
               )
             }
           </Col>
-          <Col>
-            <h1>{ team.name }</h1>
-          </Col>
+          <Col><h1>{ team.name }</h1></Col>
         </Row>
       )
     }
@@ -41,30 +41,28 @@ const TeamPage = ({ currentUser, match }) => {
       <div>
         <Row>
           <Col s={3}></Col>
-          <Col s={9}>
-            { profile(team) }
-          </Col>
+          <Col s={9}>{ profile() }</Col>
         </Row>
         <Row>
           <Col s={1}></Col>
           <Col s={10}>
             <Tabs className='Center z-depth-1'>
-              <Tab title="Boards" active tabWidth={4}>
+              <Tab title='Boards' active tabWidth={4}>
                 <Row>
                   <Col s={1}></Col>
                   <Col s={10}><TeamBoardContainer team={ team }/></Col>
                 </Row>
               </Tab>
-              <Tab title="Members" tabWidth={4}>
+              <Tab title='Members' tabWidth={4}>
                 { currentUser &&
                 <Row>
                   <Col s={3}></Col>
                   <Col s={6} >
-                    <Collection className="z-depth-1">
-                      { currentUser.teams_info[id].team_members.map(member => {
+                    <Collection className='z-depth-1'>
+                      { [...currentUser.teams_info[id].team_members].map(member => {
                         return (
                           <CollectionItem
-                            className="Center"
+                            className='center'
                             key={ member.id }>
                             { member.first_name }
                           </CollectionItem>
@@ -74,7 +72,7 @@ const TeamPage = ({ currentUser, match }) => {
                   </Col>
                 </Row>}
               </Tab>
-              <Tab title="Settings" tabWidth={4}><TeamSettings/></Tab>
+              <Tab title='Settings' tabWidth={4}><TeamSettings/></Tab>
             </Tabs>
           </Col>
         </Row>

@@ -5,6 +5,7 @@ import BoardForm from '../forms/BoardForm'
 import { Row, Col } from 'react-materialize'
 
 const TeamBoardContainer = ({ currentUser, team }) => {
+  console.log(team)
   return (
     <>
       <Row>
@@ -14,7 +15,7 @@ const TeamBoardContainer = ({ currentUser, team }) => {
         </Col>
       </Row>
       <Row >
-        { currentUser && currentUser.teams_info[team.id].boards.map(board => {
+        { currentUser && [...currentUser.teams_info[team.id].boards].map(board => {
             return (
               <Col s={3} m={3} key={ board.id }>
                 <Board key={ board.id } board={ board }/>

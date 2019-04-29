@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Modal from '../style/Modal.js'
-import MoveOver from './MoveOver.js'
 import {
   Button,
   Card,
@@ -15,10 +14,8 @@ import {
 class Task  extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
-    const {task} = this.props
-
+    const { task } = this.props
     this.state= {
-      task: task,
       name: task.name,
       due_date: task.due_date,
       description: task.description,
@@ -31,8 +28,8 @@ class Task  extends React.PureComponent {
   hideModal = () => this.setState({ show: false });
 
   handleSubmit = () => {
-    const { task, currentUser, board } = this.props
-    const { name, due_date, description, labels } = this.state
+    const { task, currentUser, board } = this.props;
+    const { name, due_date, description, labels } = this.state;
     const temp = task
 
     fetch(`http://localhost:3000/api/v1/tasks/${ task.id }`, {
@@ -94,7 +91,7 @@ class Task  extends React.PureComponent {
       <div
         className="grey lighten-4"
         draggable
-        onClick = {this.showModal}
+        onClick = { this.showModal }
         onDragStart = { (event) => start(event, task) }>
         <Card>
           { task.name }
@@ -111,15 +108,15 @@ class Task  extends React.PureComponent {
   }
 
   render(){
-    const { task, board } = this.props
+    const { lists, task, handleMoveClick  } = this.props
       // eslint-disable-next-line
-    const filtered = () => board && board.lists.filter(list => list.id != task.list_id)
+    const filtered = () => lists && [...lists].filter(list => list.id != task.list_id)
     return (
       <>
         { this.taskInfo() }
         <Modal
           className='Center'
-          show={this.state.show}
+          show={ this.state.show }
           handleClose={ this.hideModal }>
           <div>
             <Row>
@@ -150,7 +147,7 @@ class Task  extends React.PureComponent {
                       <Col s={3}></Col>
                       <Col s={3} m={8}>
                         <Input
-                          onChange={this.handleCheckBoxChange}
+                          onChange={ this.handleCheckBoxChange }
                           type='checkbox'
                           value='red'
                           label={
@@ -160,7 +157,7 @@ class Task  extends React.PureComponent {
                           }
                           className='filled-in'/>
                         <Input
-                          onChange={this.handleCheckBoxChange}
+                          onChange={ this.handleCheckBoxChange }
                           type='checkbox'
                           value='blue'
                           label={
@@ -170,7 +167,7 @@ class Task  extends React.PureComponent {
                           }
                           className='filled-in'/>
                         <Input
-                          onChange={this.handleCheckBoxChange}
+                          onChange={ this.handleCheckBoxChange }
                           type='checkbox'
                           value='yellow'
                           label={
@@ -180,7 +177,7 @@ class Task  extends React.PureComponent {
                           }
                           className='filled-in'/>
                         <Input
-                          onChange={this.handleCheckBoxChange}
+                          onChange={ this.handleCheckBoxChange }
                           className='filled-in'
                           type='checkbox'
                           label={
@@ -190,7 +187,7 @@ class Task  extends React.PureComponent {
                           }
                           value='green'/>
                         <Input
-                          onChange={this.handleCheckBoxChange}
+                          onChange={ this.handleCheckBoxChange }
                           type='checkbox'
                           value='orange'
                           label={
@@ -215,11 +212,9 @@ class Task  extends React.PureComponent {
                         return  (
                           <CollectionItem
                             key={ list.id }>
-                            <MoveOver
-                              task={ task }
-                              id={ list.id }
-                              list={ list }
-                              tasks= { list.tasks }/>
+                            <div onClick={ ()=> { handleMoveClick(task, list, this.hideModal)}}>
+                              { list.name }
+                            </div>
                           </CollectionItem>
                         )
                       })}

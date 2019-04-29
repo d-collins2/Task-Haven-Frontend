@@ -40,11 +40,11 @@ class BoardForm extends React.PureComponent{
   render(){
     return (
       <Collapsible popout>
-        <CollapsibleItem header='New Board' className="Center opacity" icon='add'>
-          <form onSubmit={this.handleBoard}>
+        <CollapsibleItem header='New Board' className='center opacity' icon='add'>
+          <form onSubmit={ this.handleBoard }>
             <label>Name</label>
-            <input onChange={this.handleChange} name="name" placeholder='name' />
-            <Button className="blue lighten-2">Submit</Button>
+            <input onChange={ this.handleChange } name='name' placeholder='name' />
+            <Button className='blue lighten-2'>Submit</Button>
           </form>
         </CollapsibleItem>
       </Collapsible>

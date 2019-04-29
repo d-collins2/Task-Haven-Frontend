@@ -49,7 +49,7 @@ class TeamForm extends React.PureComponent{
     const { currentUser, possibleMembers } = this.props
     const filtered = () => {
       if (currentUser) {
-        return possibleMembers.filter(member => member.id !== currentUser.id)
+        return [...possibleMembers].filter(member => member.id !== currentUser.id)
       }
     }
     return (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from "react-redux"
 import { Route, Switch, withRouter } from "react-router-dom";
-import { updateCurrentUserAction, updateTeamId } from './redux/actions.js'
+import { updateCurrentUserAction } from './redux/actions.js'
 import BoardPage from './containers/BoardPage.js'
 import HomePageUser from './containers/HomePageUser.js'
 import UserProfile from './containers/UserProfile.js'
@@ -55,4 +55,4 @@ class App extends Component {
     }
   }
 
-  export default withRouter(connect(msp, {updateCurrentUserAction, updateTeamId})(App))
+  export default withRouter(connect(msp, {updateCurrentUserAction})(App))

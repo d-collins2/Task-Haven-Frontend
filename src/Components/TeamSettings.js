@@ -11,8 +11,8 @@ import {
 const TeamSettings = ({ history, match }) => {
   const handleDelete = () => {
     fetch(`http://localhost:3000/api/v1/teams/${ match.params.id }`, { method: 'DELETE' })
-    .then( history.push('/home') )
-    .then( window.location.reload())
+    .then(history.push('/home'))
+    .then(window.location.reload())
   }
 
   return(

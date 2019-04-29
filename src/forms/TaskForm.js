@@ -21,29 +21,15 @@ class TaskForm extends React.PureComponent{
     }
   }
 
-  showModal = () => {
-    this.setState({ show: true });
-  };
+  showModal = () => this.setState({ show: true })
 
-  hideModal = () => {
-    this.setState({ show: false });
-  };
+  hideModal = () => this.setState({ show: false })
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
+  handleChange = (event) => this.setState({ [event.target.name]: event.target.value })
 
-  handleCheckBoxChange = (event) => {
-    console.log(event.target.value)
-    this.setState({
-      labels: event.target.value
-    })
-  }
+  handleCheckBoxChange = (event) => this.setState({ labels: event.target.value })
 
   handleTask = (event) => {
-
     event.preventDefault()
     return (
       fetch('http://localhost:3000/api/v1/tasks', {
@@ -97,7 +83,7 @@ class TaskForm extends React.PureComponent{
               onChange={ this.handleChange }
               s={12}
               label='description'
-              name="description"
+              name='description'
               />
             <Row>
                 <Col s={3}></Col>
@@ -136,7 +122,7 @@ class TaskForm extends React.PureComponent{
                   />
                 </Col>
               </Row>
-            <Button onClick={ this.handleTask } className="blue lighten-2">Submit</Button>
+            <Button onClick={ this.handleTask } className='blue lighten-2'>Submit</Button>
           </Row>
         </Modal>
       </>

@@ -15,11 +15,11 @@ const Naviebar = ({ currentUser, logout, history }) => {
   return (
     <Navbar brand='Task Haven' className="NavBar" right>
       <NavItem className="disabled" href={null}>
-        {currentUser && `Welcome! ${currentUser.full_name}`}
+        { currentUser && `Welcome! ${ currentUser.full_name }` }
       </NavItem>
       <NavItem href='/'><Icon name='home'/></NavItem>
       <NavItem href='/profile'><Icon name='user' /></NavItem>
-      <NavItem href='/login' onClick={() => handleLogOut()}><Icon name="log out"/></NavItem>
+      <NavItem href='/login' onClick={ () => handleLogOut() }><Icon name="log out"/></NavItem>
     </Navbar>
   )
 }

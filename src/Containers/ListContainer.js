@@ -8,39 +8,31 @@ import { Col, Icon, Row } from 'react-materialize'
 class ListContainer extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
-    const { board, list } = this.props
+    const { list, tasks } = this.props
 
     this.state = {
       dragObject: null,
-      board: board,
       list: list,
-      tasks: list.tasks
+      tasks: tasks,
     }
   }
 
   handleDelete = () => {
-    const { list } = this.props
-    this.props.deleteList(list)
-    fetch(`http://localhost:3000/api/v1/lists/${ list.id }`, { method: 'DELETE' })
-  }
-
-  addTask = (task) => {
-    this.setState({
-      tasks: [...this.state.tasks].concat(task)
-    })
+    this.props.deleteList(this.props.list)
+    fetch(`http://localhost:3000/api/v1/lists/${ this.props.list.id }`, { method: 'DELETE' })
   }
 
   updateTask = (task, response) => {
-    const { tasks } = this.state
-    const index =  tasks.findIndex(t => t.id === task.id)
+    const { tasks } = this.props.list
+    const index =  [...tasks].findIndex(t => t.id === task.id)
     const change = [...tasks].map((item, i) => {
-      if(i !== index){
-        return item
+      if(i == index){
+        return response
       }
-      return {...item, ...response}
+      return item
     })
 
-    this.setState({tasks: change})
+    this.setState({ tasks: change })
   }
 
   deleteTask = (task) => {
@@ -50,29 +42,39 @@ class ListContainer extends React.PureComponent {
   }
 
   render() {
-		const {currentUser, start, drop, over } = this.props
-    const { list, tasks, board } = this.state
+		const { start, drop, over, board, lists, handleMoveClick } = this.props
+    const { list, tasks, show } = this.state
+
     return (
       <div
         onDragOver={ (event) => over(event, list) }
-        onDrop={ (event) => drop(event, list) }
+        onDrop={ (event) => drop(event, list, this.hideModal) }
       >
-        {board && tasks.map(task => <Task
-          key={task.id}
-          start={start}
-          board={board}
-          task={task}
-          list={list}
-          updateTask={this.updateTask}
-          deleteTask={this.deleteTask}/>)}
+        { tasks && tasks.map((task, i) => {
+          return <Task
+              key={i}
+              start={ start }
+              board={ board }
+              task={ task }
+              list={ list }
+              lists={ lists }
+              show={ show }
+              showModal= { this.showModal }
+              hideModal= { this.hideModal }
+              tasks = { list.tasks }
+              handleMoveClick={ handleMoveClick }
+              updateTask={ this.updateTask }
+              deleteTask={ this.deleteTask }
+            />
+          })}
         <Row>
           <Col s={6}>
-            {currentUser &&
+            {tasks &&
               // eslint-disable-next-line
               (tasks.length != 9 ? <TaskForm
                 board={board}
                 list={list}
-                addTask={this.addTask}/> : null
+                addTask={this.props.addTask}/> : null
               )
             }
           </Col>
@@ -92,8 +94,7 @@ class ListContainer extends React.PureComponent {
 function msp(state){
 
   return {
-    currentUser: state.currentUser,
-    lists: state.lists
+    currentUser: state.currentUser
   }
 }
 

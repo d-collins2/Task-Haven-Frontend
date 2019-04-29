@@ -6,10 +6,10 @@ import { Col, Row } from 'react-materialize'
 const HomePageUser = () => {
   return (
     <Row>
-      <Col  s={3} >
-        <RightToolBar/>
+      <Col s={3}>
+        <RightToolBar />
       </Col>
-      <Col s={9} >
+      <Col s={9}>
         <BoardContainer />
       </Col>
     </Row>

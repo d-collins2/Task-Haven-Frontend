@@ -1,11 +1,10 @@
-import { UPDATE_USER, LOGIN, TEAM_PAGE, LOGOUT, UPDATE_BOARD, UPDATE_LISTS, DELETE_TASK} from "./types.js"
-
-export function updateUserAction(src) {
-  return {
-    type: UPDATE_USER,
-    payload: src,
-  }
-}
+import {
+  LOGIN,
+  LOGOUT,
+  UPDATE_BOARD,
+  UPDATE_LISTS,
+  DELETE_TASK,
+  UPDATE_TASK } from "./types.js"
 
 export function updateCurrentUserAction(src){
   return {
@@ -27,9 +26,9 @@ export function deleteTask(src){
   }
 }
 
-export function updateTeamId(src){
+export function updateTask(src){
   return {
-    type: TEAM_PAGE,
+    type: UPDATE_TASK,
     payload: src
   }
 }

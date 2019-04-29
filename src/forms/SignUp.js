@@ -9,7 +9,6 @@ import {
   Col
  } from 'react-materialize'
 
-
 class SignUp extends React.PureComponent{
   constructor(props){
     super(props)
@@ -68,48 +67,48 @@ class SignUp extends React.PureComponent{
   signUpForm(){
   return(
     <Card className='Center signup'>
-      <form header="Sign Up" onSubmit={this.handleLogin}>
+      <form header="Sign Up" onSubmit={ this.handleLogin }>
         <label>First Name</label>
         <input
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
           name="first_name"
           placeholder='first_name'/>
         <label>Last Name</label>
         <input
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
           name="last_name"
           placeholder='last_name'/>
         <label>Email</label>
         <input
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
           name="email"
           placeholder='email'/>
         <label>Username</label>
         <input
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
           name="username"
           placeholder='Username'/>
         <label>Image</label>
         <input
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
           name="img_url"
           placeholder='Image'/>
         <label>Password</label>
         <input
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
           type="password"
           name="password"
           placeholder='Password'/>
         <label>Password Confirmation</label>
         <input
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
           type="password"
           name="password_confim"
           placeholder='Password Confirmation'/>
           <Button.Group>
-            <Button onClick={this.handleLogin} positive>Submit</Button>
+            <Button onClick={ this.handleLogin } positive>Submit</Button>
             <Button.Or />
-            <Button className="blue lighten-2" onClick={this.handleClick}>Login</Button>
+            <Button className="blue lighten-2" onClick={ this.handleClick }>Login</Button>
           </Button.Group>
         </form>
       </Card>
@@ -119,29 +118,19 @@ class SignUp extends React.PureComponent{
   render(){
     return (
       <div>
-      <Row>
-        <Col s={3}></Col>
-        <Col s={6}>{ this.signUpForm() }</Col>
-      </Row>
-    </div>
+        <Row>
+          <Col s={3}></Col>
+          <Col s={6}>{ this.signUpForm() }</Col>
+        </Row>
+      </div>
     )
   }
 }
 
-
 function msp (state){
   return{
-    currentUser: state.currentUser,
-    loggedIn: state.loggedIn
+    currentUser: state.currentUser
   }
 }
 
-function mdp(dispatch){
-  return {
-    currentUserUpdate: (src) => dispatch(updateCurrentUserAction(src))
-  }
-}
-
-
-
-export default withRouter(connect(msp, mdp)(SignUp))
+export default withRouter(connect(msp, { updateCurrentUserAction })(SignUp))

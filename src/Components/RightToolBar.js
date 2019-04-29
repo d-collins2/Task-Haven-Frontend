@@ -6,7 +6,7 @@ import {
   Collapsible,
   CollapsibleItem,
   Collection,
-  CollectionItem  } from 'react-materialize'
+  CollectionItem } from 'react-materialize'
 
 class RightToolBar extends React.PureComponent{
   constructor(props, context) {
@@ -31,29 +31,30 @@ class RightToolBar extends React.PureComponent{
   handleBoardClick = (currentUser) => this.props.history.push(`/`)
   handleHomeClick = (currentUser) => this.props.history.push(`/home`)
 
-  addTeam = (src) => this.setState({teams: [...this.state.teams].concat(src)})
+  addTeam = (src) => this.setState({ teams: [...this.state.teams].concat(src) })
 
   render(){
     const { teams } = this.state
       return (
         <Card className="Center grey lighten-3 ">
           <Collection className="Center z-depth-1">
-            {teams && teams.map(team => {
+            { teams ? ( teams.map(team => {
               return (
                 <CollectionItem
                   className="font"
-                  key={team.id}
-                  href={`/teams/${team.id}`}>
-                  {team.name}
+                  key={ team.id }
+                  href={ `/teams/${team.id}` }>
+                  { team.name }
                 </CollectionItem>
               )
-            })}
+            })) : (<CollectionItem className="font">{ "Add a Team" }</CollectionItem>
+          )}
           </Collection>
           <Collapsible popout>
             <CollapsibleItem header='Create A Team' icon='group_add'>
               <TeamForm
-                addTeam={this.addTeam}
-                possibleMembers={this.state.possibleMembers}/>
+                addTeam={ this.addTeam }
+                possibleMembers={ this.state.possibleMembers }/>
             </CollapsibleItem>
           </Collapsible>
         </Card>

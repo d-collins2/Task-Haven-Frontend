@@ -9,7 +9,6 @@ import {
   Row,
   Input } from 'react-materialize'
 
-
 class Login extends React.PureComponent{
   constructor(props){
     super(props)
@@ -66,7 +65,6 @@ class Login extends React.PureComponent{
             onChange={this.handleChange}
             s={6}
             label='Username'
-            type='name'
             name='username'
             placeholder='Username' />
           <Input
