@@ -18,8 +18,6 @@ class BoardPage extends React.Component {
     this.state = {
       activeItem: null,
       visible: true,
-      board: null,
-      lists: null
     }
   }
 
@@ -28,10 +26,8 @@ class BoardPage extends React.Component {
     fetch(`http://localhost:3000/api/v1/boards/${id}`)
     .then(res => res.json())
     .then(board => {
-      this.setState({
-        board: board,
-        lists: board.lists
-      })
+      this.props.updateBoard(board)
+      this.props.updateLists(board.lists)
     })
   }
 
@@ -43,69 +39,31 @@ class BoardPage extends React.Component {
   onDragStart = (event, task) => this.setState({ dragObject: task })
   onDragOver = (event, list) => event.preventDefault()
 
-  addList = (src) => this.setState({
-    lists: [...this.state.lists].concat(src)
-  })
-  deleteList = (src) => this.setState({
-    lists: [...this.state.lists].filter(list => list !== src)
-  })
+
+
 
   updateList = (newList, task, response) => {
-    const change = this.state.lists.map(list => {
+    const remove = [...this.props.lists].map(list => {
       if(list.id === task.list_id) {
-        const index = list.tasks.findIndex(t => t.id == task.id)
+        const index = list.tasks.findIndex(t => t.id === task.id)
         list.tasks.splice(index, 1)
       }
       return list
     })
 
-    const addList = change.map(list => {
+    const addTaskToList = remove.map(list => {
       if(list.id === newList.id) {
         list.tasks.push(response.task)
       }
       return list
     })
 
-    this.setState({lists: addList})
+    this.props.updateLists(addTaskToList)
   }
-
-  addTask = (task, newList) => {
-    const change = this.state.lists.map(list => {
-      if(list.id === newList.id){
-        list.tasks.push(task)
-      }
-      return list
-    })
-    this.setState({
-      lists: change
-    })
-  }
-
-
-
-  handleMoveClick = (task, newList, hide) => {
-    return (
-      fetch(`http://localhost:3000/api/v1/move`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        list_id: newList.id,
-        id: task.id
-      })
-    })
-    .then(res => res.json())
-    .then(response => {
-      this.updateList(newList, task, response)
-      hide()
-    })
-  )}
 
 render() {
-  const { activeItem, visible, dragObject, board, lists } = this.state
-  const { currentUser, history } = this.props
+  const { activeItem, visible, dragObject } = this.state
+  const { currentUser, history, board, lists } = this.props
 
   let filteredMembers;
   let filteredBoards;
@@ -155,7 +113,7 @@ render() {
       this.updateList(list, dragObject, response)
     })
   }
-  console.log(board, lists)
+  
   return (
     <Sidebar.Pushable as={ Segment } >
       <Sidebar
@@ -232,12 +190,7 @@ render() {
                         over={ this.onDragOver }
                         drop={ onDrop }
                         list={ list }
-                        board= { board }
-                        lists= { lists }
-                        tasks={ list.tasks}
-                        addTask= { this.addTask }
-                        deleteList={ this.deleteList }
-                        handleMoveClick= { this.handleMoveClick }
+                        updateList = { this.updateList }
                       />
                     </Card>
                   </Col>
@@ -245,9 +198,7 @@ render() {
               <Col s={3}>
                 { lists &&
                   // eslint-disable-next-line
-                  (lists.length < 4 ? (
-                    <ListForm board={ board } addList={ this.addList }/>)
-                  : null)
+                  (lists.length < 4 ? <ListForm/> : null)
                 }
               </Col>
             </Row>

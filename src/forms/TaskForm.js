@@ -17,7 +17,6 @@ class TaskForm extends React.PureComponent{
       due_date: '',
       labels: "",
       show: false,
-      list: this.props.list
     }
   }
 
@@ -51,7 +50,7 @@ class TaskForm extends React.PureComponent{
       })
       .then(res => res.json())
       .then(response => {
-        this.props.addTask(response)
+        this.props.addTask(response, this.props.list)
         this.hideModal()
       }))
   }
@@ -131,9 +130,9 @@ class TaskForm extends React.PureComponent{
 }
 
 function msp(state){
-
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    board: state.board
   }
 }
 

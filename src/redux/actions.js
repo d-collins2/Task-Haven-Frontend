@@ -3,8 +3,8 @@ import {
   LOGOUT,
   UPDATE_BOARD,
   UPDATE_LISTS,
-  DELETE_TASK,
-  UPDATE_TASK } from "./types.js"
+  ADD_LIST,
+  DELETE_LIST } from "./types.js"
 
 export function updateCurrentUserAction(src){
   return {
@@ -19,26 +19,26 @@ export function logout(){
   }
 }
 
-export function deleteTask(src){
-  return {
-    type: DELETE_TASK,
-    payload: src
-  }
-}
-
-export function updateTask(src){
-  return {
-    type: UPDATE_TASK,
-    payload: src
-  }
-}
-
 export function updateBoard(src){
   return {
     type: UPDATE_BOARD,
     payload: src
   }
 }
+
+export function addList(src){
+  return {
+    type: ADD_LIST,
+    payload: src
+  }
+}
+export function deleteList(src){
+  return {
+    type: DELETE_LIST,
+    payload: src
+  }
+}
+
 export function updateLists(src){
   return {
     type: UPDATE_LISTS,

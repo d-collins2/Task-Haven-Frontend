@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux"
+import { updateLists } from '../redux/actions.js'
 import { Button } from 'semantic-ui-react'
 import { Collapsible, CollapsibleItem } from 'react-materialize'
 
@@ -10,6 +11,11 @@ class ListForm extends React.PureComponent{
     this.state = {
       name: ''
     }
+  }
+
+  addList = (src) => {
+    const newLists = [...this.props.lists].concat(src)
+    this.props.updateLists(newLists)
   }
 
   handleChange = (event) => {
@@ -36,7 +42,7 @@ class ListForm extends React.PureComponent{
     })
     .then(res => res.json())
     .then(response => {
-      this.props.addList(response)
+      this.addList(response)
     }))
   }
 
@@ -57,8 +63,10 @@ class ListForm extends React.PureComponent{
 
 function msp(state){
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    board: state.board,
+    lists: state.lists
   }
 }
 
-export default connect(msp)(ListForm)
+export default connect(msp, {updateLists})(ListForm)

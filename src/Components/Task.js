@@ -108,7 +108,7 @@ class Task  extends React.PureComponent {
   }
 
   render(){
-    const { lists, task, handleMoveClick  } = this.props
+    const { lists, task, handleMoveClick } = this.props
       // eslint-disable-next-line
     const filtered = () => lists && [...lists].filter(list => list.id != task.list_id)
     return (
@@ -236,7 +236,9 @@ class Task  extends React.PureComponent {
 
 function msp (state){
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    board: state.board,
+    lists: state.lists
   }
 }
 

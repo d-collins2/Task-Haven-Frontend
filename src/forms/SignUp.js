@@ -57,7 +57,7 @@ class SignUp extends React.PureComponent{
       .then(res => res.json())
       .then(response => {
         localStorage.setItem("token", response.jwt)
-        this.props.currentUserUpdate(response.user)
+        this.props.updateCurrentUserAction(response.user)
         this.props.history.push('/')
       })
       )

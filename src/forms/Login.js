@@ -51,7 +51,7 @@ class Login extends React.PureComponent{
         alert(response.message)
       } else {
         localStorage.setItem("token", response.jwt )
-        this.props.currentUserUpdate(response.user)
+        this.props.updateCurrentUserAction(response.user)
         this.props.history.push('/home')
       }})
     )
