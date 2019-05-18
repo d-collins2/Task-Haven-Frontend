@@ -6,7 +6,7 @@ import Task from '../components/Task.js'
 import { Button } from 'semantic-ui-react'
 import { Col, Icon, Row } from 'react-materialize'
 
-class ListContainer extends React.PureComponent {
+class ListContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
     const { list } = this.props

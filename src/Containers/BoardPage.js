@@ -2,15 +2,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updateBoard, updateLists } from '../redux/actions.js'
+import { Card , Col, Row } from 'react-materialize'
+import { Button, Icon, Menu, Segment, Sidebar } from 'semantic-ui-react'
 import ListForm  from '../forms/ListForm.js'
 import ListContainer from '../containers/ListContainer.js'
-import { Card , Col, Row } from 'react-materialize'
-import {
-  Button,
-  Icon,
-  Menu,
-  Segment,
-  Sidebar } from 'semantic-ui-react'
 
 class BoardPage extends React.Component {
   constructor(props, context) {
@@ -19,6 +14,16 @@ class BoardPage extends React.Component {
       activeItem: null,
       visible: true,
     }
+    this.filterdedBoards.bind(this)
+    this.filteredMembers.bind(this)
+    this.handleItemClick.bind(this)
+    this.handleHideClick.bind(this)
+    this.handlePushHome.bind(this)
+    this.handlePushProfile.bind(this)
+    this.handleShowClick.bind(this)
+    this.onDragOver.bind(this)
+    this.onDragStart.bind(this)
+    this.updateList.bind(this)
   }
 
   componentDidMount = () => {
@@ -33,67 +38,16 @@ class BoardPage extends React.Component {
 
   handleItemClick = name => this.setState({ activeItem: name })
   handleHideClick = () => this.setState({ visible: false })
+  handlePushProfile = () => this.props.history.push(`/teams/${this.props.board.team_id}`)
   handleShowClick = () => this.setState({ visible: true })
   handlePushHome = () => this.props.history.push('/home')
-
   onDragStart = (event, task) => this.setState({ dragObject: task })
   onDragOver = (event, list) => event.preventDefault()
 
-
-
-
-  updateList = (newList, task, response) => {
-    const remove = [...this.props.lists].map(list => {
-      if(list.id === task.list_id) {
-        const index = list.tasks.findIndex(t => t.id === task.id)
-        list.tasks.splice(index, 1)
-      }
-      return list
-    })
-
-    const addTaskToList = remove.map(list => {
-      if(list.id === newList.id) {
-        list.tasks.push(response.task)
-      }
-      return list
-    })
-
-    this.props.updateLists(addTaskToList)
-  }
-
-render() {
-  const { activeItem, visible, dragObject } = this.state
-  const { currentUser, history, board, lists } = this.props
-
-  let filteredMembers;
-  let filteredBoards;
-  let handlePushProfile;
-  let onDrop;
-
-  handlePushProfile = () => history.push(`/teams/${board.team_id}`)
-
-  if(board){
-    // eslint-disable-next-lin
-    filteredMembers = [...board.team.members_team].sort((a,b) => {
-      let x = a.first_name.toLowerCase()
-      let y = b.first_name.toLowerCase()
-      if (x < y) {return -1}
-      if (x > y) {return 1}
-      return 0;
-    })
-    // eslint-disable-next-line
-    const sortedBoards = [...board.team.boards].filter(boardA => boardA.id != board.id )
-    filteredBoards = sortedBoards.sort((a,b) => {
-      let x = a.name.toLowerCase()
-      let y = b.name.toLowerCase()
-      if (x < y) {return -1}
-      if (x > y) {return 1}
-      return 0;
-    })
-  }
-
-
   onDrop = (event, list) => {
+    const {  dragObject } = this.state
+    const { currentUser, board } = this.props
+
     fetch(`http://localhost:3000/api/v1/move`, {
       method: 'PATCH',
       headers: {
@@ -113,7 +67,60 @@ render() {
       this.updateList(list, dragObject, response)
     })
   }
-  
+
+  updateList = (newList, task, response) => {
+    const remove = [...this.props.lists].map(list => {
+      if(list.id === task.list_id) {
+        const index = list.tasks.findIndex(t => t.id === task.id)
+        list.tasks.splice(index, 1)
+      }
+      return list
+    })
+
+    const addTaskToList = remove.map(list => {
+      if(list.id === newList.id) {
+        list.tasks.push(response)
+      }
+      return list
+    })
+
+    this.props.updateLists(addTaskToList)
+  }
+
+  filteredBoards(){
+    if(this.props.board){
+      // eslint-disable-next-line
+      const sortedBoards = [...this.props.board.team.boards].filter(boardA => boardA.id != board.id )
+      return sortedBoards.sort((a,b) => {
+        let x = a.name.toLowerCase()
+        let y = b.name.toLowerCase()
+        if (x < y) { return -1 }
+        if (x > y) { return 1 }
+        return 0;
+      })
+    }
+  }
+
+  filteredMembers(){
+    if(this.props.board) {
+      // eslint-disable-next-lin
+      return [...this.props.board.team.members_team].sort((a,b) => {
+        let x = a.first_name.toLowerCase()
+        let y = b.first_name.toLowerCase()
+        if (x < y) { return -1 }
+        if (x > y) { return 1 }
+        return 0;
+      })
+    }
+  }
+
+
+render() {
+  const { activeItem, visible } = this.state
+  const { board, lists } = this.props
+
+  let handlePushProfile;
+  let onDrop
   return (
     <Sidebar.Pushable as={ Segment } >
       <Sidebar
@@ -138,7 +145,7 @@ render() {
         <Menu.Item>
           <Menu.Header><Icon name='users'/>Team Members</Menu.Header>
           <Menu.Menu>
-            { board && filteredMembers.map(member => {
+            { board && this.filteredMembers.map(member => {
               return (
                 <Menu.Item
                   key= { member.id }
@@ -152,7 +159,7 @@ render() {
         <Menu.Item>
           <Menu.Header><Icon name='clipboard list' />Team Boards</Menu.Header>
           <Menu.Menu>
-            {board && filteredBoards.map(board => {
+            {board && this.filteredBoards.map(board => {
               return (
                 <Menu.Item
                   key= { board.id }

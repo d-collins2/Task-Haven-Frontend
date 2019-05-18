@@ -11,7 +11,7 @@ import {
   Input,
   Row } from 'react-materialize'
 
-class Task  extends React.PureComponent {
+class Task extends React.Component {
   constructor(props, context) {
     super(props, context);
     const { task } = this.props
