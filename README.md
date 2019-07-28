@@ -1,6 +1,6 @@
 ## Task Haven - Front End
 
-This React web app was deisgned to be the responsive front-end for my final project at Flatiron School. It is designed to be my take on the popular web based list making application, Trello, which gives you a visual representation of a project you are working on. 
+This React web app was designed to be the responsive front-end for my final project at Flatiron School. It is designed to be my take on the popular web based list making application, Trello, which gives you a visual representation of a project you are working on. 
 
 Live Demo - [Here](https://www.youtube.com/watch?v=k06zraOeP7A)
 
